@@ -1,0 +1,36 @@
+<% include ../partials/header %> 
+
+     <header class="jumbotron">
+         <div class="container">
+             <h1><span class="glyphicon glyphicon-cutlery"></span> Welcome To Food Paradise!!!</h1>
+             <p>Explore the Delicious and Exotic Food Around the World </p>
+             <p>
+                <a class="btn btn-primary btn-lg" href="/foodgrounds/new">Add New Foodground</a>
+             </p>
+              <p>
+              <form action="/foodgrounds" method="GET" class="form-inline" id="foodground-search">
+                <div class="form-group">
+                  <input type="text" name="search" placeholder="Foodground search..." class="form-control">
+                </div>
+              </form>
+             </p>
+         </div>
+     </header>
+     
+     <div class="row text-center flex-wrap" id="foodground-grid">
+        <% foodgrounds.forEach(function(foodground){ %>
+            <div class="col-md-3 col-sm-6">
+                <div class="thumbnail">
+                   <img src="<%= foodground.image %>">
+                   <div class="caption">
+                       <h4><%= foodground.name %></h4>
+                   </div>
+                   <p>
+                       <a href="/foodgrounds/<%= foodground._id %>" class="btn btn-primary">More Info</a>
+                   </p>
+                </div>
+            </div>
+        <% }); %>
+    </div>
+
+<% include ../partials/footer %>
