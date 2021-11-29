@@ -1,4 +1,4 @@
-<% include ../partials/header %>
+<%- include ('../partials/header') %>
 <div class="row">
   <div class="col-md-3">
     <p class="lead">FoodCamp</p>
@@ -11,19 +11,28 @@
   </div>
   <div class="col-md-9">
     <div class="thumbnail">
-      <img class="img-responsive" src="<%= foodground.image %>">
+      <img class="img-responsive" src="<%= foodground.image %>" />
       <div class="caption-full">
-        <h4 class="pull-right">
-          Rs<%= foodground.cost %>/Meal
-        </h4>
+        <h4 class="pull-right">Rs<%= foodground.cost %>/Meal</h4>
         <h4><a><%=foodground.name%></a></h4>
         <p><%= foodground.description %></p>
         <p>
-          <em>Submitted by: <%= foodground.author.username %>, <%= moment(foodground.createdAt).fromNow() %></em>
+          <em
+            >Submitted by: <%= foodground.author.username %>, <%=
+            moment(foodground.createdAt).fromNow() %></em
+          >
         </p>
         <% if(currentUser && foodground.author.id.equals(currentUser._id)){ %>
-        <a class="btn btn-warning" href="/foodgrounds/<%= foodground._id %>/edit">Edit</a>
-        <form action="/foodgrounds/<%= foodground._id %>?_method=DELETE" method="POST" class="delete-form">
+        <a
+          class="btn btn-warning"
+          href="/foodgrounds/<%= foodground._id %>/edit"
+          >Edit</a
+        >
+        <form
+          action="/foodgrounds/<%= foodground._id %>?_method=DELETE"
+          method="POST"
+          class="delete-form"
+        >
           <button class="btn btn-danger">Delete</button>
         </form>
         <% } %>
@@ -31,31 +40,45 @@
     </div>
     <div class="well">
       <div class="text-right">
-        <a class="btn btn-success" href="/foodgrounds/<%= foodground._id %>/comments/new">Add New Comment</a>
+        <a
+          class="btn btn-success"
+          href="/foodgrounds/<%= foodground._id %>/comments/new"
+          >Add New Comment</a
+        >
       </div>
-      <hr>
+      <hr />
       <% foodground.comments.forEach(function(comment){ %>
       <div class="row">
         <div class="col-md-12">
           <strong><%= comment.author.username %></strong>
-          <span class="pull-right"><%= moment(comment.createdAt).fromNow() %></span>
+          <span class="pull-right"
+            ><%= moment(comment.createdAt).fromNow() %></span
+          >
           <div>
-           <%= comment.text %> 
-           <% if(currentUser && comment.author.id.equals(currentUser._id)){ %>
+            <%= comment.text %> <% if(currentUser &&
+            comment.author.id.equals(currentUser._id)){ %>
             <div class="pull-right">
-              <a href="/foodgrounds/<%=foodground._id%>/comments/<%=comment._id%>/edit" class="btn btn-xs btn-warning">EDIT</a>
-              <form class="delete-form" action="/foodgrounds/<%=campground._id%>/comments/<%=comment._id%>?_method=DELETE" method="POST">
+              <a
+                href="/foodgrounds/<%=foodground._id%>/comments/<%=comment._id%>/edit"
+                class="btn btn-xs btn-warning"
+                >EDIT</a
+              >
+              <form
+                class="delete-form"
+                action="/foodgrounds/<%=campground._id%>/comments/<%=comment._id%>?_method=DELETE"
+                method="POST"
+              >
                 <button class="btn btn-xs btn-danger">DELETE</button>
               </form>
             </div>
-          <% } %>
-          <hr>
+            <% } %>
+            <hr />
+          </div>
         </div>
       </div>
+      <% }) %>
     </div>
-    <% }) %>
   </div>
-</div>
 </div>
 <script>
   function initMap() {
@@ -84,5 +107,9 @@
     });
   }
 </script>
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB7HzH2ELyCxqvtMfhKx_UCVqHnXVF4sCI&callback=initMap"></script>
-<% include ../partials/footer %>
+<script
+  async
+  defer
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB7HzH2ELyCxqvtMfhKx_UCVqHnXVF4sCI&callback=initMap"
+></script>
+<%- include ('../partials/footer') %>

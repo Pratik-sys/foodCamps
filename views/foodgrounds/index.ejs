@@ -1,7 +1,8 @@
-<% include ../partials/header %> 
+<%- include ('../partials/header') %>
 
-     <header class="jumbotron">
-         <div class="container">
+
+     <div class="container">
+         <div class="jumbotron">
              <h1><span class="glyphicon glyphicon-cutlery"></span> Welcome To Food Paradise!!!</h1>
              <p>Explore the Delicious and Exotic Food Around the World </p>
              <p>
@@ -15,7 +16,7 @@
               </form>
              </p>
          </div>
-     </header>
+     </div>
      
      <div class="row text-center flex-wrap" id="foodground-grid">
         <% foodgrounds.forEach(function(foodground){ %>
@@ -33,4 +34,4 @@
         <% }); %>
     </div>
 
-<% include ../partials/footer %>
+    <%- include ('../partials/footer') %>
