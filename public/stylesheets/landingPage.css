@@ -45,19 +45,19 @@ h1{
 }
 
 .slideshow li:nth-child(1){
-    background-image: url(http://www.freestockphotos.name/wallpaper-original/wallpapers/italian-food-2322.jpg)
+    background-image: url(https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg)
 }
 
 .slideshow li:nth-child(2){
-    background-image: url(http://merkez.anstella.com/wp-content/uploads/2015/06/pizza-20439-20951-hd-wallpapers1.jpg);
+    background-image: url(https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg);
     animation-delay: 10s;
 }
 .slideshow li:nth-child(3){
-    background-image: url(http://www.freestockphotos.name/wallpaper-original/wallpapers/pictures-of-food-in-india-7028.jpg);
+    background-image: url(https://images.pexels.com/photos/1860199/pexels-photo-1860199.jpeg);
     animation-delay: 20s;
 }
 .slideshow li:nth-child(4){
-    background-image: url(https://static.pexels.com/photos/29682/pexels-photo-29682.jpg);
+    background-image: url(https://images.pexels.com/photos/958544/pexels-photo-958544.jpeg);
     animation-delay: 30s;
 }
 .slideshow li:nth-child(5){
