@@ -3,16 +3,16 @@ const app = express();
 
 const config = require("./config");
 const passport = require("passport");
+const session = require("express-session");
 const cookieParser = require("cookie-parser");
-const LocalStrategy = require("passport-local");
 const flash = require("connect-flash");
-const User = require("./models/user");
 const commentRoutes = require("./routes/comments");
 const foodgroundRoutes = require("./routes/foodgrounds");
 const indexRoutes = require("./routes/index");
+const { User } = require("./models");
 
 require("dotenv").config();
-
+require("./config/passport")(passport);
 config.DBConfig();
 
 app.use(express.urlencoded({ extended: true }));
@@ -26,19 +26,28 @@ app.locals.moment = require("moment");
 
 // PASSPORT CONFIGURATION
 app.use(
-  require("express-session")({
-    secret: "Once again you broke the code!",
+  session({
+    secret: process.env.SECRETE_KEY,
     resave: false,
     saveUninitialized: false,
+    cookie: {
+      expires: 600000,
+    },
   })
 );
 
 app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
-passport.use(new LocalStrategy(User.authenticate()));
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
+passport.serializeUser((user, done) => {
+  done(null, user.id);
+});
+
+passport.deserializeUser((id, done) => {
+  User.findById(id, function (err, user) {
+    done(err, user);
+  });
+});
 
 app.use(function (req, res, next) {
   res.locals.currentUser = req.user;
