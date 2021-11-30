@@ -44,4 +44,4 @@ const foodgroundSchema = new mongoose.Schema({
   ],
 });
 
-module.exports = mongoose.model("Foodground", foodgroundSchema);
+module.exports = mongoose.model("foodground", foodgroundSchema);
