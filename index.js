@@ -2,32 +2,23 @@ const express = require("express");
 const app = express();
 
 const bodyParser = require("body-parser");
-const mongoose = require("mongoose");
+const config = require("./config");
 const passport = require("passport");
 const cookieParser = require("cookie-parser");
 const LocalStrategy = require("passport-local");
 const flash = require("connect-flash");
-const Foodground = require("./models/foodground");
-const Comment = require("./models/comment");
 const User = require("./models/user");
-const session = require("express-session");
-const seedDB = require("./seeds");
-const methodOverride = require("method-override");
-// configure dotenv
-
-require("dotenv").config();
-
-//Import routes
 const commentRoutes = require("./routes/comments");
 const foodgroundRoutes = require("./routes/foodgrounds");
 const indexRoutes = require("./routes/index");
 
-mongoose.connect(process.env.DB_URL);
+require("dotenv").config();
+
+config.DBConfig();
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
-app.use(methodOverride("_method"));
 app.use(cookieParser("secret"));
 
 //require moment
@@ -62,5 +53,5 @@ app.use("/foodgrounds", foodgroundRoutes);
 app.use("/foodgrounds/:id/comments", commentRoutes);
 
 app.listen(process.env.PORT, () => {
-  console.log("The Server Has Started & Running!");
+  console.log(`Server running at port ${process.env.PORT}`);
 });
