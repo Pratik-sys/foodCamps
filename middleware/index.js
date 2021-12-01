@@ -1,5 +1,5 @@
-var Comment    = require("../models/comment");
-var Foodground = require("../models/foodground");
+const {Comment}    = require("../models");
+const {Foodground} = require("../models");
 module.exports = {
     isLoggedIn : function(req, res, next) {
         if(req.isAuthenticated()){

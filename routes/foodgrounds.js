@@ -1,9 +1,9 @@
-var express    = require("express");
-var router     = express.Router();
-var Foodground = require("../models/foodground");
-var Comment    = require("../models/comment");
-var middleware = require("../middleware");
-var geocoder   = require("geocoder")
+const express    = require("express");
+const router     = express.Router();
+const {Foodground} = require("../models");
+const {Comment}    = require("../models");
+const middleware = require("../middleware");
+const geocoder   = require("geocoder")
 
 //the Function to add the Search feature
 function theRegex(text) {
