@@ -30,7 +30,7 @@ const foodgroundSchema = new mongoose.Schema({
   author: {
     id: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      ref: "user",
     },
     username: {
       type: String,
@@ -39,7 +39,7 @@ const foodgroundSchema = new mongoose.Schema({
   comments: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Comment",
+      ref: "comment",
     },
   ],
 });
