@@ -65,7 +65,7 @@ router.post("/", middleware.isLoggedIn, async (req, res) => {
       // lng: geocodes[0].longitude,
       author: {
         id: req.user.id,
-        username: req.user.username,
+        username: req.user.name,
       },
     }).save();
     res.redirect("/foodgrounds");
