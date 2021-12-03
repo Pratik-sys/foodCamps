@@ -1,6 +1,6 @@
-<% include ../partials/header %>
+<%- include ('../partials/header') %>
     <div class="row">
-        <h1 style="text-align: center">Add New Comment to <%= campground.name %></h1>
+        <h1 style="text-align: center">Add New Comment to <%= foodground.name %></h1>
         <div style="width: 30%; margin: 25px auto;">
             <form action="/foodgrounds/<%= foodground._id %>/comments" method="POST">
                 <div class="form-group">
@@ -13,4 +13,4 @@
             <a href="/foodgrounds">Go Back</a>
         </div>
     </div>
-<% include ../partials/footer %>
+<%- include ('../partials/footer') %>

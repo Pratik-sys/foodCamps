@@ -1,8 +1,8 @@
-var express = require("express");
-var router  = express.Router({mergeParams: true});
-var Foodground = require("../models/foodground");
-var Comment = require("../models/comment");
-var middleware = require("../middleware");
+const express = require("express");
+const router  = express.Router({mergeParams: true});
+const {Foodground} = require("../models");
+const {Comment} = require("../models");
+const middleware = require("../middleware");
 
 //Comments New
 router.get("/new", middleware.isLoggedIn, function(req, res){

@@ -1,27 +1,47 @@
-var mongoose = require("mongoose");
+const mongoose = require("mongoose");
 
-var foodgroundSchema = new mongoose.Schema ({
-    name: String,
-    image: String,
-    description: String,
-    cost: Number,
-    location: String,
-    lat : Number,
-    lng : Number,
-    createdAt : {type: Date, default: Date.now },
-    author : {
-        id: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "User"
-        }, 
-        username: String
+const foodgroundSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+  },
+  image: {
+    type: String,
+  },
+  description: {
+    type: String,
+  },
+  cost: {
+    type: Number,
+  },
+  location: {
+    type: String,
+  },
+  lat: {
+    type: Number,
+  },
+  lng: {
+    type: Number,
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+  author: {
+    id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "user",
     },
-    comments: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Comment"
-        }
-    ]
+    username: {
+      type: String,
+    },
+  },
+  comments: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "comment",
+    },
+  ],
 });
 
-module.exports = mongoose.model("Foodground", foodgroundSchema);
+module.exports = mongoose.model("foodground", foodgroundSchema);
