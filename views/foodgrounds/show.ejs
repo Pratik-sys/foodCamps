@@ -22,7 +22,7 @@
             moment(foodground.createdAt).fromNow() %></em
           >
         </p>
-        <% if(currentUser && foodground.author.id.equals(currentUser._id)){ %>
+        <% if(currentUser && foodground.author.id.toString() === currentUser._id.toString()){ %>
         <a
           class="btn btn-warning"
           href="/foodgrounds/<%= foodground._id %>/edit"
@@ -56,7 +56,7 @@
           >
           <div>
             <%= comment.text %> <% if(currentUser &&
-            comment.author.id.equals(currentUser._id)){ %>
+            comment.author.id.toString() === currentUser._id.toString()){ %>
             <div class="pull-right">
               <a
                 href="/foodgrounds/<%=foodground._id%>/comments/<%=comment._id%>/edit"
