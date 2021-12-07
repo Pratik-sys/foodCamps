@@ -65,7 +65,7 @@ router.post("/", middleware.isLoggedIn, async (req, res) => {
       // lng: geocodes[0].longitude,
       author: {
         id: req.user.id,
-        username: req.user.username,
+        username: req.user.name,
       },
     }).save();
     res.redirect("/foodgrounds");
@@ -85,7 +85,6 @@ router.get("/:id", async (req, res) => {
     const foodground = await Foodground.findById(req.params.id).populate(
       "comments"
     );
-    console.log(foodground);
     if (foodground) {
       res.render("foodgrounds/show", { foodground: foodground });
     }
@@ -94,12 +93,11 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-router.get("/:id/edit", middleware.checkUserFoodground, async (req, res) => {
+router.get("/:id/edit", middleware.checkUserFoodground, (req, res) => {
   //find the foodground with suitable Id
   try {
-    await Foodground.findById(req.params.id, (err, food) => {
+    Foodground.findById(req.params.id, (err, food) => {
       if (food) {
-        console.log(food);
         res.render("foodgrounds/edit", { foodground: food });
       }
     });
@@ -110,7 +108,7 @@ router.get("/:id/edit", middleware.checkUserFoodground, async (req, res) => {
 
 router.put("/:id", async (req, res) => {
   try {
-    await Foodground.findByIdAndUpdate(
+    const foodground = await Foodground.findByIdAndUpdate(
       { _id: req.params.id },
       {
         $set: {

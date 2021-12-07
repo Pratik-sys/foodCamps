@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 
+const methodOveride = require("method-override");
 const config = require("./config");
 const passport = require("passport");
 const session = require("express-session");
@@ -24,6 +25,7 @@ app.use(cookieParser("secret"));
 app.locals.moment = require("moment");
 // seedDB(); //seed the database
 
+app.use(methodOveride("_method"));
 // PASSPORT CONFIGURATION
 app.use(
   session({

@@ -36,12 +36,10 @@ const foodgroundSchema = new mongoose.Schema({
       type: String,
     },
   },
-  comments: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "comment",
-    },
-  ],
+  comments: {
+    type: [mongoose.Schema.Types.ObjectId],
+    ref: "comment",
+  },
 });
 
 module.exports = mongoose.model("foodground", foodgroundSchema);
