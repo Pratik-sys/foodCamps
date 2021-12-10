@@ -2,15 +2,7 @@ const express = require("express");
 const router = express.Router();
 const { Foodground } = require("../models");
 const middleware = require("../middleware");
-// const NodeGeocoder = require("node-geocoder");
-
-// const opts = {
-//   provider: "google",
-//   httpAdapter: "https",
-//   apiKey: "AIzaSyB4f5h5SyjKA9hm5KQSQz35OvLAO-c8zFA",
-//   formatter: null,
-// };
-// const geocoder = NodeGeocoder(opts);
+const geoCoder = require("../utils/geocoder");
 
 //the Function to add the Search feature
 function theRegex(text) {
@@ -54,15 +46,15 @@ router.get("/", (req, res) => {
 //Create - add new foodground to DB
 router.post("/", middleware.isLoggedIn, async (req, res) => {
   try {
-    // const geocodes = await geocoder.geocode(req.body.location);
+    const loc = await geoCoder.geocode(req.body.location);
     await new Foodground({
       name: req.body.name,
       image: req.body.image,
       description: req.body.description,
       cost: req.body.cost,
-      location: req.body.location,
-      // lat: geocoes[0].latitude,
-      // lng: geocodes[0].longitude,
+      location: loc[0].formattedAddress,
+      lat: loc[0].latitude,
+      lng: loc[0].longitude,
       author: {
         id: req.user.id,
         username: req.user.name,

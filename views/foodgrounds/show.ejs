@@ -22,7 +22,8 @@
             moment(foodground.createdAt).fromNow() %></em
           >
         </p>
-        <% if(currentUser && foodground.author.id.toString() === currentUser._id.toString()){ %>
+        <% if(currentUser && foodground.author.id.toString() ===
+        currentUser._id.toString()){ %>
         <a
           class="btn btn-warning"
           href="/foodgrounds/<%= foodground._id %>/edit"
@@ -82,34 +83,37 @@
 </div>
 <script>
   function initMap() {
-    var lat = <%= foodground.lat %>;
-    var lng = <%= foodground.lng %>;
-    var center = {lat: lat, lng: lng };
-    var map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 8,
-        center: center,
-        scrollwheel: false
+    var lat = <%=foodground.lat%>;
+    var lng = <%=foodground.lng%>;
+    var center = { lat: lat, lng: lng };
+    var map = new google.maps.Map(document.getElementById("map"), {
+      zoom: 8,
+      center: center,
+      scrollwheel: true,
     });
     var contentString = `
       <strong><%= foodground.name %><br />
       <%= foodground.location %></strong>
-      <p><%= foodground.description %></p>
-    `
+    `;
     var infowindow = new google.maps.InfoWindow({
-      content: contentString
+      content: contentString,
     });
     var marker = new google.maps.Marker({
-        position: center,
-        map: map
+      position: center,
+      map: map,
     });
-    marker.addListener('click', function() {
+    var latLng = new google.maps.LatLng(lat, lng);
+    marker.addListener("click", function () {
       infowindow.open(map, marker);
+      map.setZoom(20);
+      map.setCenter(marker.getPosition());
+
     });
   }
 </script>
 <script
   async
   defer
-  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB7HzH2ELyCxqvtMfhKx_UCVqHnXVF4sCI&callback=initMap"
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC5C6Dg0G9INHL0reKcKItq30fKapAtxnU&callback=initMap"
 ></script>
 <%- include ('../partials/footer') %>
