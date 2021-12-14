@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { Foodground } = require("../models");
+const { Foodground, Comment } = require("../models");
 const middleware = require("../middleware");
 const Geocoder = require("../utils/Geocoder");
 const Cloudinary = require("../utils/Cloudinary");
@@ -91,21 +91,24 @@ router.get("/:id", async (req, res) => {
     const foodground = await Foodground.findById(req.params.id).populate(
       "comments"
     );
-    if (foodground) {
-      res.render("foodgrounds/show", { foodground: foodground });
+    if (!foodground) {
+      req.flash("error", "No foodground found");
+      res.redirect("/foodgrounds");
     }
+    res.render("foodgrounds/show", { foodground: foodground });
   } catch (err) {
     console.log(err);
   }
 });
 
-router.get("/:id/edit", middleware.checkUserFoodground, (req, res) => {
-  //find the foodground with suitable Id
+router.get("/:id/edit", middleware.isLoggedIn, (req, res) => {
   try {
     Foodground.findById(req.params.id, (err, food) => {
-      if (food) {
-        res.render("foodgrounds/edit", { foodground: food });
+      if (!food) {
+        req.flash("error", "No foodground found");
+        res.redirect("/foodgrounds");
       }
+      res.render("foodgrounds/edit", { foodground: food });
     });
   } catch (err) {
     console.log(err);
@@ -115,26 +118,29 @@ router.get("/:id/edit", middleware.checkUserFoodground, (req, res) => {
 router.put("/:id", async (req, res) => {
   imageDetails = {};
   try {
+    const foodground = await Foodground.findOne({
+      _id: req.params.id,
+    });
     if (req.body.image) {
       imageDetails = await Cloudinary.CloudinaryUpload(
         req.body.image,
-        req.body.name
+        req.body.name || foodground.name
       );
     } else {
-      imageDetails = {};
+      imageDetails = foodground.image;
     }
     const data = await Geocoder.LocationGeocoding(req.body.location);
-    const foodground = await Foodground.findByIdAndUpdate(
+    await Foodground.findByIdAndUpdate(
       { _id: req.params.id },
       {
         $set: {
-          name: req.body.name,
+          name: req.body.name || foodground.name,
           image: imageDetails,
-          description: req.body.description,
-          cost: req.body.cost,
-          location: data.location,
-          lat: data.lat,
-          lng: data.lng,
+          description: req.body.description || foodground.description,
+          cost: req.body.cost || foodground.cost,
+          location: data.location || foodground.location,
+          lat: data.lat || foodground.lat,
+          lng: data.lng || foodground.lng,
         },
       }
     );
@@ -157,7 +163,8 @@ router.delete("/:id", async (req, res) => {
     }
     await Cloudinary.DeleteImage(foodground.image.cloudinary_ID);
     await foodground.remove({ _id: foodground.id });
-    req.flash("Sucess", foodground.name + "deleted");
+    await Comment.deleteMany({ _id: foodground.comments });
+    req.flash("success", "Foodground deleted!");
     res.redirect("/foodgrounds");
   } catch (err) {
     console.log(err);

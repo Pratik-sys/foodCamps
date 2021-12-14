@@ -8,18 +8,18 @@ const middleware = require("../middleware");
 router.get("/new", middleware.isLoggedIn, (req, res) => {
   try {
     Foodground.findById(req.params.id, (err, foodground) => {
-      if (foodground) {
-        res.render("comments/new", { foodground: foodground });
+      if (!foodground) {
+        req.flash("error", "No foodground found to comment");
+        res.redirect("/foodgrounds");
       }
+      res.render("comments/new", { foodground: foodground });
     });
   } catch (err) {
     console.log(err);
   }
 });
 
-//Comments Create
 router.post("/", middleware.isLoggedIn, (req, res) => {
-  //lookup campground using ID\
   try {
     Foodground.findById(req.params.id, async (err, foodground) => {
       if (foodground) {
@@ -41,7 +41,6 @@ router.post("/", middleware.isLoggedIn, (req, res) => {
     console.log(err);
   }
 });
-
 router.get("/:commentId/edit", middleware.isLoggedIn, (req, res) => {
   // finding  foodground by id first.
   try {
@@ -60,21 +59,24 @@ router.get("/:commentId/edit", middleware.isLoggedIn, (req, res) => {
 
 router.put("/:commentId", async (req, res) => {
   try {
-    await Comment.findByIdAndUpdate(
-      { _id: req.params.commentId },
-      {
-        $set: {
-          text: req.body.text,
-        },
-      }
-    );
-    res.redirect("/foodgrounds/" + req.params.id);
+    const comment = await Comment.findOne({ _id: req.params.commentId });
+    if (comment) {
+      await Comment.findByIdAndUpdate(
+        { _id: req.params.commentId },
+        {
+          $set: {
+            text: req.body.text || comment.text,
+          },
+        }
+      );
+      res.redirect("/foodgrounds/" + comment._id);
+    }
   } catch (err) {
     console.log(err);
   }
 });
 
-router.delete("/:commentId", middleware.checkUserComment, (req, res) => {
+router.delete("/:commentId", middleware.isLoggedIn, (req, res) => {
   try {
     Comment.findByIdAndRemove(req.params.commentId, (err, comment) => {
       if (comment) {
