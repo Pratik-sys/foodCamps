@@ -22,7 +22,7 @@
         <% foodgrounds.forEach(function(foodground){ %>
             <div class="col-md-3 col-sm-6">
                 <div class="thumbnail">
-                   <img src="<%= foodground.image %>">
+                   <img src="<%=foodground.image.path%>">
                    <div class="caption">
                        <h4><%= foodground.name %></h4>
                    </div>
