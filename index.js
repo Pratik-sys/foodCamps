@@ -15,6 +15,7 @@ const { User } = require("./models");
 require("dotenv").config();
 require("./config/passport")(passport);
 config.DBConfig();
+config.CloudinaryConfig();
 app.use(express.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
