@@ -10,4 +10,11 @@ const opts = {
 
 const geocoder = NodeGeocoder(opts);
 
-module.exports = geocoder;
+module.exports.LocationGeocoding = async (loc) => {
+  const result = await geocoder.geocode(loc);
+  return {
+    location: result[0].formattedAddress,
+    lat: result[0].latitude,
+    lng: result[0].longitude,
+  };
+};
