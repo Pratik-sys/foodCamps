@@ -6,7 +6,12 @@ const foodgroundSchema = new mongoose.Schema({
     required: true,
   },
   image: {
-    type: String,
+    cloudinary_ID: {
+      type: String,
+    },
+    path: {
+      type: String,
+    },
   },
   description: {
     type: String,
