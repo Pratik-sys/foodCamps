@@ -2,7 +2,8 @@ const express = require("express");
 const router = express.Router();
 const { Foodground } = require("../models");
 const middleware = require("../middleware");
-const geoCoder = require("../utils/geocoder");
+const Geocoder = require("../utils/Geocoder");
+const Cloudinary = require("../utils/Cloudinary");
 
 //the Function to add the Search feature
 function theRegex(text) {
@@ -45,16 +46,28 @@ router.get("/", (req, res) => {
 
 //Create - add new foodground to DB
 router.post("/", middleware.isLoggedIn, async (req, res) => {
+  imageDetails = {};
   try {
-    const loc = await geoCoder.geocode(req.body.location);
+    if (req.body.image) {
+      imageDetails = await Cloudinary.CloudinaryUpload(
+        req.body.image,
+        req.body.name
+      );
+    } else {
+      imageDetails = {
+        cloudinary_ID: process.env.DEFAULT_IMAGE_ID,
+        path: process.env.DEFAULT_IMAGE_URL,
+      };
+    }
+    const data = await Geocoder.LocationGeocoding(req.body.location);
     await new Foodground({
       name: req.body.name,
-      image: req.body.image,
+      image: imageDetails,
       description: req.body.description,
       cost: req.body.cost,
-      location: loc[0].formattedAddress,
-      lat: loc[0].latitude,
-      lng: loc[0].longitude,
+      location: data.location,
+      lat: data.lat,
+      lng: data.lng,
       author: {
         id: req.user.id,
         username: req.user.name,
@@ -62,6 +75,7 @@ router.post("/", middleware.isLoggedIn, async (req, res) => {
     }).save();
     res.redirect("/foodgrounds");
   } catch (err) {
+    await Cloudinary.DeleteImage(imageDetails.cloudinary_ID);
     console.log(err);
   }
 });
@@ -99,22 +113,35 @@ router.get("/:id/edit", middleware.checkUserFoodground, (req, res) => {
 });
 
 router.put("/:id", async (req, res) => {
+  imageDetails = {};
   try {
+    if (req.body.image) {
+      imageDetails = await Cloudinary.CloudinaryUpload(
+        req.body.image,
+        req.body.name
+      );
+    } else {
+      imageDetails = {};
+    }
+    const data = await Geocoder.LocationGeocoding(req.body.location);
     const foodground = await Foodground.findByIdAndUpdate(
       { _id: req.params.id },
       {
         $set: {
           name: req.body.name,
-          image: req.body.image,
+          image: imageDetails,
           description: req.body.description,
           cost: req.body.cost,
-          location: req.body.location,
+          location: data.location,
+          lat: data.lat,
+          lng: data.lng,
         },
       }
     );
     req.flash("success", "Successfully Updated!");
     res.redirect("/foodgrounds/" + foodground._id);
   } catch (err) {
+    await Cloudinary.DeleteImage(imageDetails.cloudinary_ID);
     console.log(err);
   }
 });
@@ -125,10 +152,13 @@ router.delete("/:id", async (req, res) => {
       _id: req.params.id,
     });
     if (!foodground) {
-      req.flash("error", foodground.name + "deleted");
-      res.redirect("/foodfrounds");
+      req.flash("error", foodground.name + "can't be deleted");
+      res.redirect("/foodgrounds");
     }
+    await Cloudinary.DeleteImage(foodground.image.cloudinary_ID);
     await foodground.remove({ _id: foodground.id });
+    req.flash("Sucess", foodground.name + "deleted");
+    res.redirect("/foodgrounds");
   } catch (err) {
     console.log(err);
   }
