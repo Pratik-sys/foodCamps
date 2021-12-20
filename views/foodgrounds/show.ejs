@@ -1,86 +1,85 @@
 <%- include ('../partials/header') %>
-<div class="row">
-  <div class="col-md-3">
-    <p class="lead">FoodCamp</p>
-    <div class="list-group">
-      <li class="list-group-item active">Info 1</li>
-      <li class="list-group-item">Info 2</li>
-      <li class="list-group-item">Info 3</li>
+<div class="container-fluid py-2">
+  <div class="row">
+    <div class="col-md-3">
+      <div id="map"></div>
     </div>
-    <div id="map"></div>
-  </div>
-  <div class="col-md-9">
-    <div class="thumbnail">
-      <img class="img-responsive" src="<%= foodground.image.path%>" />
-      <div class="caption-full">
-        <h4 class="pull-right">Rs<%= foodground.cost %>/Meal</h4>
-        <h4><a><%=foodground.name%></a></h4>
-        <p><%= foodground.description %></p>
-        <p>
-          <em
-            >Submitted by: <%= foodground.author.username %>, <%=
-            moment(foodground.createdAt).fromNow() %></em
+    <div class="col-md-9">
+      <div class="row">
+        <div class="card" style="border: none;">
+          <div class="col d-flex justify-content-center">
+            <img src="<%= foodground.image.path %>" style="width: 100%; height: auto; max-width: 500px;"/>
+          </div>
+          <div class="card-body">
+            <h4>Rs <%= foodground.cost %>/Meal</h4>
+            <h4><%= foodground.name%></h4>
+            <p>
+              <%= foodground.description%>
+              <em class="d-flex justify-content-end"
+                >Submitted by: <%= foodground.author.username %>, <%=
+                moment(foodground.createdAt).fromNow() %></em
+              >
+            </p>
+            <% if(currentUser && foodground.author.id.toString() ===
+            currentUser._id.toString()){ %>
+            <a
+              class="btn btn-warning"
+              href="/foodgrounds/<%= foodground._id %>/edit"
+              >Edit</a
+            >
+            <form
+            class="delete-form"
+            action="/foodgrounds/<%=foodground._id%>/delete/?_method=DELETE"
+            method="POST"
+            style="display: inline-block;"
           >
-        </p>
-        <% if(currentUser && foodground.author.id.toString() ===
-        currentUser._id.toString()){ %>
-        <a
-          class="btn btn-warning"
-          href="/foodgrounds/<%= foodground._id %>/edit"
-          >Edit</a
-        >
-        <form
-          action="/foodgrounds/<%= foodground._id %>?_method=DELETE"
-          method="POST"
-          class="delete-form"
-        >
-          <button class="btn btn-danger">Delete</button>
-        </form>
-        <% } %>
-      </div>
-    </div>
-    <div class="well">
-      <div class="text-right">
-        <a
-          class="btn btn-success"
-          href="/foodgrounds/<%= foodground._id %>/comments/new"
-          >Add New Comment</a
-        >
+            <button class="btn btn-danger">Delete</button>
+          </form>
+            <% } %>
+          </div>
+          <a
+            class="btn btn-success"
+            href="/foodgrounds/<%= foodground._id %>/comments/new"
+            >Add New Comment</a
+          >
+        </div>
       </div>
       <hr />
       <% foodground.comments.forEach(function(comment){ %>
-      <div class="row">
-        <div class="col-md-12">
-          <strong><%= comment.author.username %></strong>
-          <span class="pull-right"
-            ><%= moment(comment.createdAt).fromNow() %></span
-          >
-          <div>
-            <%= comment.text %> <% if(currentUser &&
-            comment.author.id.toString() === currentUser._id.toString()){ %>
-            <div class="pull-right">
-              <a
-                href="/foodgrounds/<%=foodground._id%>/comments/<%=comment._id%>/edit"
-                class="btn btn-xs btn-warning"
-                >EDIT</a
-              >
-              <form
-                class="delete-form"
-                action="/foodgrounds/<%=foodground._id%>/comments/<%=comment._id%>?_method=DELETE"
-                method="POST"
-              >
-                <button class="btn btn-xs btn-danger">DELETE</button>
-              </form>
-            </div>
-            <% } %>
-            <hr />
+      <div class="row d-flex justify-content-between">
+        <div class="col">
+          <div class="row mx-auto">
+            <%= comment.text %> 
           </div>
+          <strong><%= comment.author.username%></strong>
+          <span> <%= moment(comment.createdAt).fromNow() %> </span>
+        
         </div>
+        <div class="col d-flex justify-content-end my-2">
+          <% if(currentUser && comment.author.id.toString()
+          === currentUser._id.toString()){ %>
+          <a
+            href="/foodgrounds/<%=foodground._id%>/comments/<%=comment._id%>/edit"
+            class="btn btn-xs btn-warning mr-2" style="margin-right: 10px;"
+            >EDIT</a
+          >
+          <form
+            class="delete-form"
+            action="/foodgrounds/<%=foodground._id%>/comments/<%=comment._id%>?_method=DELETE"
+            method="POST"
+          >
+            <button class="btn btn-xs btn-danger">DELETE</button>
+          </form>
+        </div>
+        <%} %>
       </div>
-      <% }) %>
+      <hr/>
+      <%}) %>
+
     </div>
   </div>
 </div>
+
 <script>
   function initMap() {
     var lat = <%=foodground.lat%>;
