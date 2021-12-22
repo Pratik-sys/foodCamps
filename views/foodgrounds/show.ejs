@@ -33,6 +33,16 @@
             href="/foodgrounds/<%= foodground._id%>/comments/new"
             >Add comment</a
           >
+          <div class="col d-flex justify-content-end">
+            <% if(currentUser && foodground.author.id.toString()===
+            currentUser._id.toString()){%>
+            <a class="btn btn-warning mx-2" href="/foodgrounds/<%= foodground._id%>/edit">edit</a>
+            <form action="/foodgrounds/<%= foodground._id%>/delete?_method=DELETE" method="POST" style="display: inline">
+              <button class="btn btn-danger btn-xs">delete</button>
+            </form>
+            <%} %>
+          </div>
+
         </div>
       </div>
       <hr />
@@ -69,7 +79,7 @@
                 <form
                   action="foodgrounds/<%=foodground._id%>/comments/<%=comment._id%>?_method=DELETE"
                   method="POST"
-                  style="display: inline;"
+                  style="display: inline"
                 >
                   <button class="btn btn-danger btn-xs">delete</button>
                 </form>
@@ -87,7 +97,6 @@
       </div>
     </div>
   </div>
-
 
   <div
     class="modal fade"
