@@ -109,12 +109,30 @@
               >
             </li>
             <% } else { %>
-            <li class="nav-item">
-              <a class="nav-link active" href="/logout">Logout</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link">Signed In As <%= currentUser.name %> </a>
-            </li>
+              <li class="nav-item dropdown">
+                <a
+                  class="nav-link active dropdown-toggle"
+                  href="#"
+                  id="navbarDropdown"
+                  role="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                <img
+                src="https://res.cloudinary.com/dhpnkuwjz/image/upload/v1640152256/Avatar_Created_with_amongusavatarcreator.com_eemauc.png"
+                class="rounded-circle"
+                height="35"
+              />
+                </a>
+                <ul class="dropdown-menu" style="left:auto; right: 2px;" aria-labelledby="navbarDropdown">
+                  <li class="nav-item">
+                    <a class="nav-link active"><%= currentUser.name %> </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link active" href="/logout">Logout</a>
+                  </li>
+                </ul>
+              </li>
             <% } %>
           </ul>
         </div>
