@@ -13,6 +13,11 @@
       crossorigin="anonymous"
     />
     <link rel="stylesheet" href="/stylesheets/main.css" />
+    <script
+      src="https://code.jquery.com/jquery-3.6.0.js"
+      integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+      crossorigin="anonymous"
+    ></script>
 
     <title>FoodCamp</title>
   </head>
@@ -109,40 +114,47 @@
               >
             </li>
             <% } else { %>
-              <li class="nav-item dropdown">
-                <a
-                  class="nav-link active dropdown-toggle"
-                  href="#"
-                  id="navbarDropdown"
-                  role="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link active dropdown-toggle"
+                href="#"
+                id="navbarDropdown"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
                 <img
-                src="https://res.cloudinary.com/dhpnkuwjz/image/upload/v1640152256/Avatar_Created_with_amongusavatarcreator.com_eemauc.png"
-                class="rounded-circle"
-                height="35"
-              />
-                </a>
-                <ul class="dropdown-menu" style="left:auto; right: 2px;" aria-labelledby="navbarDropdown">
-                  <li class="nav-item">
-                    <a class="nav-link active"><%= currentUser.name %> </a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link active" href="/logout">Logout</a>
-                  </li>
-                </ul>
-              </li>
+                  src="https://res.cloudinary.com/dhpnkuwjz/image/upload/v1640152256/Avatar_Created_with_amongusavatarcreator.com_eemauc.png"
+                  class="rounded-circle"
+                  height="35"
+                />
+              </a>
+              <ul
+                class="dropdown-menu"
+                style="left: auto; right: 2px"
+                aria-labelledby="navbarDropdown"
+              >
+                <li class="nav-item">
+                  <a class="nav-link active"><%= currentUser.name %> </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link active" href="/logout">Logout</a>
+                </li>
+              </ul>
+            </li>
             <% } %>
           </ul>
         </div>
       </div>
     </nav>
-    <div class="container-fluid text-center">
+    <div class="container text-center">
       <div class="row m-2 d-flex justify-content-center">
-        <div class="col-md-4">
+        <div class="col-md-6">
           <% if(error && error.length> 0) { %>
-          <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          <div
+            class="alert alert-danger alert-dismissible fade show"
+            role="alert"
+          >
             <p><%=error %></p>
             <button
               type="button"
@@ -152,7 +164,10 @@
             ></button>
           </div>
           <% } %> <% if(success && success.length> 0) { %>
-          <div class="alert alert-success alert-dismissible fade show" role="alert">
+          <div
+            class="alert alert-success alert-dismissible fade show"
+            role="alert"
+          >
             <p><%= success %></p>
             <button
               type="button"
@@ -162,11 +177,18 @@
             ></button>
           </div>
           <% } %>
-          
         </div>
       </div>
     </div>
-
+    <script>
+      window.setTimeout(function () {
+        $(".alert")
+          .fadeTo(500, 0)
+          .slideUp(500, function () {
+            $(this).remove();
+          });
+      }, 2000);
+    </script>
     <!-- Optional JavaScript; choose one of the two! -->
 
     <!-- Option 1: Bootstrap Bundle with Popper -->
