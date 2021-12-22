@@ -1,87 +1,149 @@
 <%- include ('../partials/header') %>
-<div class="row">
-  <div class="col-md-3">
-    <p class="lead">FoodCamp</p>
-    <div class="list-group">
-      <li class="list-group-item active">Info 1</li>
-      <li class="list-group-item">Info 2</li>
-      <li class="list-group-item">Info 3</li>
-    </div>
-    <div id="map"></div>
-  </div>
-  <div class="col-md-9">
-    <div class="thumbnail">
-      <img class="img-responsive" src="<%= foodground.image.path%>" />
-      <div class="caption-full">
-        <h4 class="pull-right">Rs<%= foodground.cost %>/Meal</h4>
-        <h4><a><%=foodground.name%></a></h4>
-        <p><%= foodground.description %></p>
-        <p>
-          <em
-            >Submitted by: <%= foodground.author.username %>, <%=
-            moment(foodground.createdAt).fromNow() %></em
-          >
-        </p>
-        <% if(currentUser && foodground.author.id.toString() ===
-        currentUser._id.toString()){ %>
-        <a
-          class="btn btn-warning"
-          href="/foodgrounds/<%= foodground._id %>/edit"
-          >Edit</a
+<div class="container py-2">
+  <div class="row">
+    <div class="col-md-3">
+      <div class="row d-flex justify-content-center align-items-center">
+        <img
+          src="<%= foodground.image.path %>"
+          style="height:auto; max-width: 450px;"
+        />
+      </div>
+      <div class="col mt-2 text-center">
+        <button
+          type="button"
+          class="btn btn-primary"
+          data-bs-toggle="modal"
+          data-bs-target="#exampleModal"
         >
-        <form
-          action="/foodgrounds/<%= foodground._id %>?_method=DELETE"
-          method="POST"
-          class="delete-form"
-        >
-          <button class="btn btn-danger">Delete</button>
-        </form>
-        <% } %>
+          View on map
+        </button>
       </div>
     </div>
-    <div class="well">
-      <div class="text-right">
-        <a
-          class="btn btn-success"
-          href="/foodgrounds/<%= foodground._id %>/comments/new"
-          >Add New Comment</a
-        >
-      </div>
-      <hr />
-      <% foodground.comments.forEach(function(comment){ %>
+    <div class="col-md-9">
       <div class="row">
-        <div class="col-md-12">
-          <strong><%= comment.author.username %></strong>
-          <span class="pull-right"
-            ><%= moment(comment.createdAt).fromNow() %></span
+        <div class="col mt-3 px-3 bottom-border">
+          <h1><%= foodground.name%></h1>
+          <p>cusine</p>
+          <p><%= foodground.description%></p>
+          <p class="text-muted"><%= foodground.location %></p>
+          <p><span class="text-warning">Open at</span> - 8am - 10pm</p>
+          <p><span>Call</span> - <span>1234567890</span></p>
+          <a
+            class="btn btn-success"
+            href="/foodgrounds/<%= foodground._id%>/comments/new"
+            >Add comment</a
           >
-          <div>
-            <%= comment.text %> <% if(currentUser &&
-            comment.author.id.toString() === currentUser._id.toString()){ %>
-            <div class="pull-right">
-              <a
-                href="/foodgrounds/<%=foodground._id%>/comments/<%=comment._id%>/edit"
-                class="btn btn-xs btn-warning"
-                >EDIT</a
-              >
-              <form
-                class="delete-form"
-                action="/foodgrounds/<%=foodground._id%>/comments/<%=comment._id%>?_method=DELETE"
-                method="POST"
-              >
-                <button class="btn btn-xs btn-danger">DELETE</button>
-              </form>
-            </div>
-            <% } %>
-            <hr />
+          <div class="col d-flex justify-content-end">
+            <% if(currentUser && foodground.author.id.toString()===
+            currentUser._id.toString()){%>
+            <a class="btn btn-warning mx-2" href="/foodgrounds/<%= foodground._id%>/edit">edit</a>
+            <form action="/foodgrounds/<%= foodground._id%>/delete?_method=DELETE" method="POST" style="display: inline">
+              <button class="btn btn-danger btn-xs">delete</button>
+            </form>
+            <%} %>
           </div>
+
         </div>
       </div>
-      <% }) %>
+      <hr />
+
+      <div class="card d-flex justify-content-center" style="border: none">
+        <% foodground.comments.forEach(function(comment){%>
+        <div
+          class="row p-2 mx-2"
+          id="<%= comment._id%>"
+          onmouseover="commenthover('<%= comment._id%>')"
+          onmouseleave="commentremove('<%= comment._id%>')"
+          style="border-radius: 15px"
+        >
+          <div class="col d-flex">
+            <img
+              class="rounded-circle"
+              alt="#"
+              src="https://png.pngtree.com/png-vector/20190223/ourmid/pngtree-vector-avatar-icon-png-image_695765.jpg"
+              style="height: 75px; width: 75px"
+            />
+            <div class="card-body">
+              <div class="col">
+                <h6><%= comment.author.username%></h6>
+                <p><%= comment.text%></p>
+              </div>
+              <div class="col">
+                <% if(currentUser && comment.author.id.toString()===
+                currentUser._id.toString()){ %>
+                <a
+                  class="btn btn-warning btn-xs"
+                  href="/foodgrounds/<%= foodground._id%>/comments/<%=comment._id%>/edit"
+                  >edit</a
+                >
+                <form
+                  action="foodgrounds/<%=foodground._id%>/comments/<%=comment._id%>?_method=DELETE"
+                  method="POST"
+                  style="display: inline"
+                >
+                  <button class="btn btn-danger btn-xs">delete</button>
+                </form>
+                <%}%>
+                <div>
+                  <span class="row text-muted d-flex justify-content-end">
+                    <%= moment(comment.createdAt).fromNow() %>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <%})%>
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="modal fade"
+    id="exampleModal"
+    tabindex="-1"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <div id="map"></div>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            Close
+          </button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
     </div>
   </div>
 </div>
+
 <script>
+  function commenthover(id){
+    let cid = document.getElementById(`${id}`)
+    cid.style.backgroundColor = '#f6f6f6';
+    cid.style.transition = 'all 0.2s';
+  }
+  function commentremove(id){
+    let cid = document.getElementById(`${id}`)
+    cid.style.backgroundColor = 'white';
+  }
   function initMap() {
     var lat = <%=foodground.lat%>;
     var lng = <%=foodground.lng%>;
