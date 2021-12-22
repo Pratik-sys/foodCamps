@@ -2,21 +2,21 @@
 <div class="container py-2">
   <div class="row">
     <div class="col-md-3">
-      <div class="row">
+      <div class="row d-flex justify-content-center align-items-center">
         <img
           src="<%= foodground.image.path %>"
-          style="width: 100%; height: auto; max-width: 500px"
+          style="height:auto; max-width: 450px;"
         />
-        <div class="col d-flex justify-content-center">
-          <button
-            type="button"
-            class="btn btn-primary"
-            data-bs-toggle="modal"
-            data-bs-target="#exampleModal"
-          >
-            View on map
-          </button>
-        </div>
+      </div>
+      <div class="col mt-2 text-center">
+        <button
+          type="button"
+          class="btn btn-primary"
+          data-bs-toggle="modal"
+          data-bs-target="#exampleModal"
+        >
+          View on map
+        </button>
       </div>
     </div>
     <div class="col-md-9">
