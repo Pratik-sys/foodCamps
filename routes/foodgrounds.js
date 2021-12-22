@@ -152,7 +152,7 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id/delete", async (req, res) => {
   try {
     const foodground = await Foodground.findOne({
       _id: req.params.id,
