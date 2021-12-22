@@ -66,12 +66,13 @@
                   href="/foodgrounds/<%= foodground._id%>/comments/<%=comment._id%>/edit"
                   >edit</a
                 >
-                <from
+                <form
                   action="foodgrounds/<%=foodground._id%>/comments/<%=comment._id%>?_method=DELETE"
                   method="POST"
+                  style="display: inline;"
                 >
                   <button class="btn btn-danger btn-xs">delete</button>
-                </from>
+                </form>
                 <%}%>
                 <div>
                   <span class="row text-muted d-flex justify-content-end">
