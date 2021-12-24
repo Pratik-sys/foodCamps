@@ -5,7 +5,7 @@ const { User } = require("../models");
 const bcrypt = require("bcrypt");
 
 //root route
-router.get("/", function (req, res) {
+router.get("/", (req, res) => {
   res.render("landing");
 });
 
@@ -34,7 +34,7 @@ router.post("/register", async (req, res) => {
 });
 
 //show login form
-router.get("/login", function (req, res) {
+router.get("/login", (req, res) => {
   res.render("login", { page: "login" });
 });
 
@@ -52,7 +52,7 @@ router.post(
 );
 
 // logout route
-router.get("/logout", function (req, res) {
+router.get("/logout", (req, res) => {
   req.logout();
   req.flash("success", "Hasta la Vista!");
   res.redirect("/foodgrounds");

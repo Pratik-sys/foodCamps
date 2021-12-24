@@ -45,45 +45,55 @@ router.get("/", (req, res) => {
 });
 
 //Create - add new foodground to DB
-router.post("/", middleware.isLoggedIn, async (req, res) => {
-  imageDetails = {};
-  try {
-    if (req.body.image) {
-      imageDetails = await Cloudinary.CloudinaryUpload(
-        req.body.image,
-        req.body.name
-      );
-    } else {
-      imageDetails = {
-        cloudinary_ID: process.env.DEFAULT_IMAGE_ID,
-        path: process.env.DEFAULT_IMAGE_URL,
-      };
+router.post(
+  "/",
+  middleware.isLoggedIn,
+  middleware.authorize("user"),
+  async (req, res) => {
+    imageDetails = {};
+    try {
+      if (req.body.image) {
+        imageDetails = await Cloudinary.CloudinaryUpload(
+          req.body.image,
+          req.body.name
+        );
+      } else {
+        imageDetails = {
+          cloudinary_ID: process.env.DEFAULT_IMAGE_ID,
+          path: process.env.DEFAULT_IMAGE_URL,
+        };
+      }
+      const data = await Geocoder.LocationGeocoding(req.body.location);
+      await new Foodground({
+        name: req.body.name,
+        image: imageDetails,
+        description: req.body.description,
+        cost: req.body.cost,
+        location: data.location,
+        lat: data.lat,
+        lng: data.lng,
+        author: {
+          id: req.user.id,
+          username: req.user.name,
+        },
+      }).save();
+      res.redirect("/foodgrounds");
+    } catch (err) {
+      await Cloudinary.DeleteImage(imageDetails.cloudinary_ID);
+      console.log(err);
     }
-    const data = await Geocoder.LocationGeocoding(req.body.location);
-    await new Foodground({
-      name: req.body.name,
-      image: imageDetails,
-      description: req.body.description,
-      cost: req.body.cost,
-      location: data.location,
-      lat: data.lat,
-      lng: data.lng,
-      author: {
-        id: req.user.id,
-        username: req.user.name,
-      },
-    }).save();
-    res.redirect("/foodgrounds");
-  } catch (err) {
-    await Cloudinary.DeleteImage(imageDetails.cloudinary_ID);
-    console.log(err);
   }
-});
+);
 
 //New - show form to create a new Foodground
-router.get("/new", middleware.isLoggedIn, (req, res) => {
-  res.render("foodgrounds/new");
-});
+router.get(
+  "/new",
+  middleware.isLoggedIn,
+  middleware.authorize("user"),
+  (req, res) => {
+    res.render("foodgrounds/new");
+  }
+);
 
 //Show - shows more info about one Foodground
 router.get("/:id", async (req, res) => {
@@ -101,19 +111,24 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-router.get("/:id/edit", middleware.isLoggedIn, (req, res) => {
-  try {
-    Foodground.findById(req.params.id, (err, food) => {
-      if (!food) {
-        req.flash("error", "No foodground found");
-        res.redirect("/foodgrounds");
-      }
-      res.render("foodgrounds/edit", { foodground: food });
-    });
-  } catch (err) {
-    console.log(err);
+router.get(
+  "/:id/edit",
+  middleware.isLoggedIn,
+  middleware.authorize("user"),
+  (req, res) => {
+    try {
+      Foodground.findById(req.params.id, (err, food) => {
+        if (!food) {
+          req.flash("error", "No foodground found");
+          res.redirect("/foodgrounds");
+        }
+        res.render("foodgrounds/edit", { foodground: food });
+      });
+    } catch (err) {
+      console.log(err);
+    }
   }
-});
+);
 
 router.put("/:id", async (req, res) => {
   imageDetails = {};
@@ -152,23 +167,28 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-router.delete("/:id/delete", async (req, res) => {
-  try {
-    const foodground = await Foodground.findOne({
-      _id: req.params.id,
-    });
-    if (!foodground) {
-      req.flash("error", foodground.name + "can't be deleted");
+router.delete(
+  "/:id/delete",
+  middleware.isLoggedIn,
+  middleware.authorize("user"),
+  async (req, res) => {
+    try {
+      const foodground = await Foodground.findOne({
+        _id: req.params.id,
+      });
+      if (!foodground) {
+        req.flash("error", foodground.name + "can't be deleted");
+        res.redirect("/foodgrounds");
+      }
+      await Cloudinary.DeleteImage(foodground.image.cloudinary_ID);
+      await foodground.remove({ _id: foodground.id });
+      await Comment.deleteMany({ _id: foodground.comments });
+      req.flash("success", "Foodground deleted!");
       res.redirect("/foodgrounds");
+    } catch (err) {
+      console.log(err);
     }
-    await Cloudinary.DeleteImage(foodground.image.cloudinary_ID);
-    await foodground.remove({ _id: foodground.id });
-    await Comment.deleteMany({ _id: foodground.comments });
-    req.flash("success", "Foodground deleted!");
-    res.redirect("/foodgrounds");
-  } catch (err) {
-    console.log(err);
   }
-});
+);
 
 module.exports = router;

@@ -5,21 +5,26 @@ const { Comment } = require("../models");
 const middleware = require("../middleware");
 
 //Comments New
-router.get("/new", middleware.isLoggedIn, (req, res) => {
-  try {
-    Foodground.findById(req.params.id, (err, foodground) => {
-      if (!foodground) {
-        req.flash("error", "No foodground found to comment");
-        res.redirect("/foodgrounds");
-      }
-      res.render("comments/new", { foodground: foodground });
-    });
-  } catch (err) {
-    console.log(err);
+router.get(
+  "/new",
+  middleware.isLoggedIn,
+  middleware.authorize("user"),
+  (req, res) => {
+    try {
+      Foodground.findById(req.params.id, (err, foodground) => {
+        if (!foodground) {
+          req.flash("error", "No foodground found to comment");
+          res.redirect("/foodgrounds");
+        }
+        res.render("comments/new", { foodground: foodground });
+      });
+    } catch (err) {
+      console.log(err);
+    }
   }
-});
+);
 
-router.post("/", middleware.isLoggedIn, (req, res) => {
+router.post("/", (req, res) => {
   try {
     Foodground.findById(req.params.id, async (err, foodground) => {
       if (foodground) {
@@ -41,21 +46,26 @@ router.post("/", middleware.isLoggedIn, (req, res) => {
     console.log(err);
   }
 });
-router.get("/:commentId/edit", middleware.isLoggedIn, (req, res) => {
-  // finding  foodground by id first.
-  try {
-    Comment.findById(req.params.commentId, (err, comment) => {
-      if (comment) {
-        res.render("comments/edit", {
-          foodground_id: req.params.id,
-          comment: comment,
-        });
-      }
-    });
-  } catch (err) {
-    console.log(err);
+router.get(
+  "/:commentId/edit",
+  middleware.isLoggedIn,
+  middleware.authorize("user"),
+  (req, res) => {
+    // finding  foodground by id first.
+    try {
+      Comment.findById(req.params.commentId, (err, comment) => {
+        if (comment) {
+          res.render("comments/edit", {
+            foodground_id: req.params.id,
+            comment: comment,
+          });
+        }
+      });
+    } catch (err) {
+      console.log(err);
+    }
   }
-});
+);
 
 router.put("/:commentId", async (req, res) => {
   try {
@@ -76,25 +86,30 @@ router.put("/:commentId", async (req, res) => {
   }
 });
 
-router.delete("/:commentId", middleware.isLoggedIn, (req, res) => {
-  try {
-    Comment.findByIdAndRemove(req.params.commentId, (err, comment) => {
-      if (comment) {
-        Foodground.findByIdAndUpdate(
-          { _id: req.params.id },
-          {
-            $pull: {
-              comments: comment.id,
-            },
-          }
-        );
-        req.flash("error", "Comment deleted!");
-        res.redirect("/foodgrounds/" + req.params.id);
-      }
-    });
-  } catch (err) {
-    console.log(err);
+router.delete(
+  "/:commentId",
+  middleware.isLoggedIn,
+  middleware.authorize("user"),
+  (req, res) => {
+    try {
+      Comment.findByIdAndRemove(req.params.commentId, (err, comment) => {
+        if (comment) {
+          Foodground.findByIdAndUpdate(
+            { _id: req.params.id },
+            {
+              $pull: {
+                comments: comment.id,
+              },
+            }
+          );
+          req.flash("error", "Comment deleted!");
+          res.redirect("/foodgrounds/" + req.params.id);
+        }
+      });
+    } catch (err) {
+      console.log(err);
+    }
   }
-});
+);
 
 module.exports = router;
