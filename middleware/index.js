@@ -9,7 +9,9 @@ module.exports = {
   authorize: (...roles) => {
     return (req, res, next) => {
       if (!roles.includes(req.user.role)) {
-        return res.send("<h1>unauthorize user access</h1>");
+        return res.send(
+          "<script>function Redirect(){window.location='/foodgrounds';} alert('Unautorize access you will be redirected to foodgrounds in 5 seconds'); setTimeout(Redirect(),5000);</script>"
+        );
       }
       next();
     };
