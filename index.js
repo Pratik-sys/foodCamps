@@ -11,6 +11,7 @@ const commentRoutes = require("./routes/comments");
 const foodgroundRoutes = require("./routes/foodgrounds");
 const indexRoutes = require("./routes/index");
 const { User } = require("./models");
+const {GenAdmin} = require("./utils/CreateAdmin");
 
 require("dotenv").config();
 require("./config/passport")(passport);
@@ -20,7 +21,7 @@ app.use(express.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
 app.use(cookieParser("secret"));
-
+app.use(GenAdmin);
 //require moment
 app.locals.moment = require("moment");
 // seedDB(); //seed the database
