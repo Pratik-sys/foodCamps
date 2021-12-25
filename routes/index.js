@@ -44,10 +44,15 @@ router.post(
   passport.authenticate("local", {
     failureRedirect: "/login",
     failureFlash: true,
-    successFlash: "Welcome to FoodCamp!",
   }),
   (req, res) => {
-    res.redirect("/foodgrounds");
+    if (req.user.role != "admin") {
+      req.flash("success",`Welcome to Foodgrounds ${req.user.name}!`);
+      res.redirect("/foodgrounds");
+    } else {
+      req.flash("success",`Welcome back Admin ${req.user.name}!`);
+      res.redirect("admin/list-alluser");
+    }
   }
 );
 
