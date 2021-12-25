@@ -9,9 +9,10 @@ const cookieParser = require("cookie-parser");
 const flash = require("connect-flash");
 const commentRoutes = require("./routes/comments");
 const foodgroundRoutes = require("./routes/foodgrounds");
+const adminRoutes = require("./routes/Admin");
 const indexRoutes = require("./routes/index");
 const { User } = require("./models");
-const {GenAdmin} = require("./utils/CreateAdmin");
+const { GenAdmin } = require("./utils/CreateAdmin");
 
 require("dotenv").config();
 require("./config/passport")(passport);
@@ -62,6 +63,7 @@ app.use(function (req, res, next) {
 app.use("/", indexRoutes);
 app.use("/foodgrounds", foodgroundRoutes);
 app.use("/foodgrounds/:id/comments", commentRoutes);
+app.use("/admin/", adminRoutes);
 
 app.listen(process.env.PORT, () => {
   console.log(`Server running at port ${process.env.PORT}`);
