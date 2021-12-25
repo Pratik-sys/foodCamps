@@ -63,7 +63,7 @@ app.use(function (req, res, next) {
 app.use("/", indexRoutes);
 app.use("/foodgrounds", foodgroundRoutes);
 app.use("/foodgrounds/:id/comments", commentRoutes);
-app.use("/admin/", adminRoutes);
+app.use("/admin", adminRoutes);
 
 app.listen(process.env.PORT, () => {
   console.log(`Server running at port ${process.env.PORT}`);
