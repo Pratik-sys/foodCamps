@@ -3,27 +3,27 @@
 <div class="container">
   <div class="row d-flex justify-content-center">
     <div class="col-md-8">
-        <h1 class="text-center">List all Users</h1>
-        <table class=" table table-bordered mb-3">
-            <thead>
-              <tr>
-                <th scope="col">Name</th>
-                <th scope="col">Role</th>
-              </tr>
-            </thead>
-            <% user.forEach(function(user){ %>
-            <tbody>
-              <tr>
-                  <% if(user.role != 'admin'){%>
-               <td><%= user.name %></td>
-                <td><%= user.role %></td>
-                    <%};%>
-              </tr>
-            </tbody>
-            <%}); %>
-          </table>
+      <h1 class="text-center">List all Users</h1>
+      <table class="table table-bordered mb-3">
+        <thead>
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Role</th>
+          </tr>
+        </thead>
+        <% user.forEach(function(user){ %>
+        <tbody>
+          <tr>
+            <% if(user.role != 'admin'){%>
+            <td><%= user.name %></td>
+            <td><%= user.role %></td>
+            <%};%>
+          </tr>
+        </tbody>
+        <%}); %>
+      </table>
       <h1 class="text-center">List all foodgrounds</h1>
-      <table class=" table table-bordered mb-3">
+      <table class="table table-bordered mb-3">
         <thead>
           <tr>
             <th scope="col">Name</th>
@@ -33,46 +33,52 @@
             <th scope="col">location</th>
             <th scope="col">Author</th>
             <th scope="col">Date of creation</th>
+            <th scope="col">Action</th>
           </tr>
         </thead>
         <% foodground.forEach(function(foodground){ %>
         <tbody>
           <tr>
-           <td><%= foodground.name %></td>
+            <td><%= foodground.name %></td>
             <td><%= foodground.image.path %></td>
             <td><%= foodground.description %></td>
             <td><%= foodground.cost %></td>
             <td><%= foodground.location %></td>
             <td><%= foodground.author.username %></td>
             <td><%= foodground.createdAt %></td>
-
+            <td>
+              <form
+                action="/admin/<%= foodground._id%>/delete?_method=DELETE"
+                method="POST"
+                style="display: inline"
+              >
+                <button class="btn btn-danger btn-xs">delete</button>
+              </form>
+            </td>
           </tr>
         </tbody>
         <%}); %>
       </table>
       <h1 class="text-center">List all Comments</h1>
-      <table class=" table table-bordered mb-3">
+      <table class="table table-bordered mb-3">
         <thead>
           <tr>
             <th scope="col">Comment text</th>
             <th scope="col">Author</th>
             <th scope="col">Date of comment</th>
-
           </tr>
         </thead>
         <% comment.forEach(function(comment){ %>
         <tbody>
           <tr>
-           <td><%= comment.text %></td>
+            <td><%= comment.text %></td>
             <td><%= comment.author.username %></td>
             <td><%= comment.createdAt %></td>
-
           </tr>
         </tbody>
         <%}); %>
       </table>
     </div>
-    
   </div>
 </div>
 <%- include ('../partials/footer')%>
