@@ -170,7 +170,7 @@ router.put("/:id", async (req, res) => {
 router.delete(
   "/:id/delete",
   middleware.isLoggedIn,
-  middleware.authorize("user"),
+  middleware.authorize("user", "admin"),
   async (req, res) => {
     try {
       const foodground = await Foodground.findOne({
@@ -184,7 +184,11 @@ router.delete(
       await foodground.remove({ _id: foodground.id });
       await Comment.deleteMany({ _id: foodground.comments });
       req.flash("success", "Foodground deleted!");
-      res.redirect("/foodgrounds");
+      if (req.user.role != "admin") {
+        res.redirect("/foodgrounds");
+      } else {
+        res.redirect("/admin/list-alluser");
+      }
     } catch (err) {
       console.log(err);
     }
