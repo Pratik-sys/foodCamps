@@ -29,23 +29,15 @@ router.get(
   }
 );
 router.delete(
-  "/:id/delete",
+  "/:id/user-delete",
   middleware.isLoggedIn,
   middleware.authorize("admin"),
   async (req, res) => {
     try {
-      const foodground = await Foodground.findOne({
-        _id: req.params.id,
-      });
-      if (!foodground) {
-        req.flash("error", foodground.name + "can't be deleted");
-        res.redirect("/foodgrounds");
-      }
-      await Cloudinary.DeleteImage(foodground.image.cloudinary_ID);
-      await foodground.remove({ _id: foodground.id });
-      await Comment.deleteMany({ _id: foodground.comments });
-      req.flash("success", "Foodground deleted!");
-      res.redirect("admin/list");
+      await User.findByIdAndDelete({ _id: req.params.id });
+      console.log(user);
+      req.flash("success", "User deleted!");
+      res.redirect("/admin/list-alluser");
     } catch (err) {
       console.log(err);
     }
