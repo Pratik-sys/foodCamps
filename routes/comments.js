@@ -90,7 +90,7 @@ router.put("/:commentId", async (req, res) => {
 router.delete(
   "/:commentId",
   middleware.isLoggedIn,
-  middleware.authorize("user"),
+  middleware.authorize("user", "admin"),
   (req, res) => {
     try {
       Comment.findByIdAndRemove(req.params.commentId, (err, comment) => {
@@ -103,8 +103,12 @@ router.delete(
               },
             }
           );
-          req.flash("error", "Comment deleted!");
-          res.redirect("/foodgrounds/" + req.params.id);
+          req.flash("success", "Comment deleted!");
+          if (req.user.role != "admin") {
+            res.redirect("/foodgrounds/" + req.params.id);
+          } else {
+            res.redirect("/admin/list-alluser");
+          }
         }
       });
     } catch (err) {
