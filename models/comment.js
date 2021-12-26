@@ -17,6 +17,10 @@ const commentSchema = mongoose.Schema({
       type: String,
     },
   },
+  foodground: {
+    type: [mongoose.Schema.Types.ObjectId],
+    ref: "foodground",
+  },
 });
 
 module.exports = mongoose.model("comment", commentSchema);

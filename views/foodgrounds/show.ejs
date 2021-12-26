@@ -5,7 +5,7 @@
       <div class="row d-flex justify-content-center align-items-center">
         <img
           src="<%= foodground.image.path %>"
-          style="height:auto; max-width: 450px;"
+          style="height: auto; max-width: 450px"
         />
       </div>
       <div class="col mt-2 text-center">
@@ -36,13 +36,20 @@
           <div class="col d-flex justify-content-end">
             <% if(currentUser && foodground.author.id.toString()===
             currentUser._id.toString()){%>
-            <a class="btn btn-warning mx-2" href="/foodgrounds/<%= foodground._id%>/edit">edit</a>
-            <form action="/foodgrounds/<%= foodground._id%>/delete?_method=DELETE" method="POST" style="display: inline">
+            <a
+              class="btn btn-warning mx-2"
+              href="/foodgrounds/<%= foodground._id%>/edit"
+              >edit</a
+            >
+            <form
+              action="/foodgrounds/<%= foodground._id%>/delete?_method=DELETE"
+              method="POST"
+              style="display: inline"
+            >
               <button class="btn btn-danger btn-xs">delete</button>
             </form>
             <%} %>
           </div>
-
         </div>
       </div>
       <hr />

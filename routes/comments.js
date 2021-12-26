@@ -34,6 +34,7 @@ router.post("/", (req, res) => {
             id: req.user.id,
             username: req.user.name,
           },
+          foodground: foodground,
         });
         comment.save();
         foodground.comments.push(comment);
