@@ -141,6 +141,7 @@ router.put("/:id", async (req, res) => {
         req.body.image,
         req.body.name || foodground.name
       );
+      await Cloudinary.DeleteImage(foodgroound.image.cloudinary_ID);
     } else {
       imageDetails = foodground.image;
     }
