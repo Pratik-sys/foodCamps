@@ -62,7 +62,8 @@
                   %>
                 "
                 aria-current="page"
-                href="/foodgrounds"
+                href="/foodgrounds" 
+                style="margin:5px 0;"
                 >Home</a
               >
             </li>
@@ -134,7 +135,7 @@
                 aria-labelledby="navbarDropdown"
               >
                 <li class="nav-item">
-                  <a class="nav-link active"><%= currentUser.name %> </a>
+                  <a class="nav-link active" href="/user-details"><%= currentUser.name %> </a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link active" href="/logout">Logout</a>

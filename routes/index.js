@@ -59,6 +59,10 @@ router.post(
     }
   }
 );
+router.get("/user-details", async (req, res) => {
+  const user = await User.findById({ _id: req.user._id });
+  res.render("details", { user: user });
+});
 
 // logout route
 router.get("/logout", (req, res) => {
