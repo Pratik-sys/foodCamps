@@ -21,6 +21,10 @@ router.post("/register", async (req, res) => {
     await new User({
       name: req.body.username,
       password: hash,
+      avatar_image: {
+        cloudinary_ID: process.env.DEFAULT_AVATAR_ID,
+        path: process.env.DEFAULT_AVATAR_URL,
+      },
     }).save();
     req.flash(
       "success",
@@ -47,10 +51,10 @@ router.post(
   }),
   (req, res) => {
     if (req.user.role != "admin") {
-      req.flash("success",`Welcome to Foodgrounds ${req.user.name}!`);
+      req.flash("success", `Welcome to Foodgrounds ${req.user.name}!`);
       res.redirect("/foodgrounds");
     } else {
-      req.flash("success",`Welcome back Admin ${req.user.name}!`);
+      req.flash("success", `Welcome back Admin ${req.user.name}!`);
       res.redirect("admin/list-alluser");
     }
   }
@@ -62,5 +66,4 @@ router.get("/logout", (req, res) => {
   req.flash("success", "Hasta la Vista!");
   res.redirect("/foodgrounds");
 });
-
 module.exports = router;

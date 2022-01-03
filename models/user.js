@@ -9,12 +9,20 @@ const UserSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  role :{
+  role: {
     type: String,
-    enum:["user", "admin"],
-    default : "user",
-    required : true
-  }
+    enum: ["user", "admin"],
+    default: "user",
+    required: true,
+  },
+  avatar_image: {
+    cloudinary_ID: {
+      type: String,
+    },
+    path: {
+      type: String,
+    },
+  },
 });
 
 module.exports = mongoose.model("user", UserSchema);
