@@ -3,6 +3,8 @@ const router = express.Router();
 const passport = require("passport");
 const { User } = require("../models");
 const bcrypt = require("bcrypt");
+const middleware = require("../middleware");
+const Cloudinary = require("../utils/Cloudinary");
 
 //root route
 router.get("/", (req, res) => {
@@ -59,9 +61,38 @@ router.post(
     }
   }
 );
-router.get("/user-details", async (req, res) => {
+router.get("/user-details", middleware.isLoggedIn, async (req, res) => {
   const user = await User.findById({ _id: req.user._id });
   res.render("details", { user: user });
+});
+router.put("/edit-user-details", middleware.isLoggedIn, async (req, res) => {
+  imageDetails = {};
+  try {
+    const user = await User.findById({ _id: req.user._id });
+    if (req.body.image) {
+      imageDetails = await Cloudinary.CloudinaryUpload(
+        req.body.image,
+        req.user.name,
+        "Users"
+      );
+      await Cloudinary.DeleteImage(user.avatar_image.cloudinary_ID);
+    } else {
+      imageDetails = user.avatar_image;
+    }
+    await User.findByIdAndUpdate(
+      { _id: req.user._id },
+      {
+        $set: {
+          avatar_image: imageDetails,
+        },
+      }
+    );
+    req.flash("success", "Avatar Updated");
+    res.redirect("/user-details");
+  } catch (err) {
+    await Cloudinary.DeleteImage(imageDetails.cloudinary_ID);
+    console.log(err);
+  }
 });
 
 // logout route
