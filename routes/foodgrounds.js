@@ -55,7 +55,8 @@ router.post(
       if (req.body.image) {
         imageDetails = await Cloudinary.CloudinaryUpload(
           req.body.image,
-          req.body.name
+          req.body.name,
+          "foodgrounds"
         );
       } else {
         imageDetails = {
@@ -139,7 +140,8 @@ router.put("/:id", async (req, res) => {
     if (req.body.image) {
       imageDetails = await Cloudinary.CloudinaryUpload(
         req.body.image,
-        req.body.name || foodground.name
+        req.body.name || foodground.name,
+        "foodgrounds"
       );
       await Cloudinary.DeleteImage(foodgroound.image.cloudinary_ID);
     } else {
