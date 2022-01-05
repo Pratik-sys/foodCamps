@@ -33,6 +33,7 @@ router.post("/", (req, res) => {
           author: {
             id: req.user.id,
             username: req.user.name,
+            avatar_image: req.user.avatar_image.path,
           },
           foodground: foodground,
         });

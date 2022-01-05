@@ -16,6 +16,9 @@ const commentSchema = mongoose.Schema({
     username: {
       type: String,
     },
+    avatar_image: {
+      type: String,
+    },
   },
   foodground: {
     type: [mongoose.Schema.Types.ObjectId],
