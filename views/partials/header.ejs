@@ -88,6 +88,7 @@
                   %>
                 "
                 href="/login"
+                style="margin:5px 0;"
                 >Login</a
               >
             </li>
@@ -111,6 +112,7 @@
                   %>
                 "
                 href="/register"
+                style="margin:5px 0;"
                 >Sign Up</a
               >
             </li>
@@ -125,8 +127,9 @@
                 aria-expanded="false"
               >
                 <img
+                class="rounded-circle"
                   src="<%= currentUser.avatar_image.path%>"
-                  height="35"
+                  style="max-width: 50px; height: 45px;"
                 />
               </a>
               <ul
