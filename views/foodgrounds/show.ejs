@@ -11,11 +11,11 @@
       <div class="col mt-2 text-center">
         <button
           type="button"
-          class="btn btn-primary"
+          class="btn btn-xs"
           data-bs-toggle="modal"
           data-bs-target="#exampleModal"
         >
-          View on map
+        <ion-icon name="map-outline" style="font-size: 35px;"></ion-icon>
         </button>
       </div>
     </div>
@@ -30,31 +30,37 @@
           <p><span>Call</span> - <span>1234567890</span></p>
           <p><span>Likes</span> : <span><%= foodground.likes.count%></span></p>
           <a
-            class="btn btn-success"
+            class="btn btn-xs"
             href="/foodgrounds/<%= foodground._id%>/comments/new"
-            >Add comment</a
+            ><ion-icon name="chatbox-ellipses-outline" style="font-size: 25px;"></ion-icon></a
           >
-          <form action="/like-foodground/<%= foodground._id%>" method="post" style="display: inline;">
-            <button type="submit" class="btn btn-primary" >Like</button>
+          <form
+            action="/like-foodground/<%= foodground._id%>"
+            method="post"
+            style="display: inline"
+          >
+            <button type="submit" class="btn btn-xs" style="outline: none;">
+              <ion-icon name="thumbs-up-outline" style="font-size: 25px;"></ion-icon>
+            </button>
           </form>
         </div>
-          <div class="col text-end mt-3">
-            <% if(currentUser && foodground.author.id.toString()===
-            currentUser._id.toString()){%>
-              <a
-              class="btn btn-warning mx-auto"
-              href="/foodgrounds/<%= foodground._id%>/edit"
-              >edit</a
-            >
-            <form
-              action="/foodgrounds/<%= foodground._id%>/delete?_method=DELETE"
-              method="POST"
-              style="display: inline"
-            >
-              <button class="btn btn-danger btn-xs">delete</button>
-            </form>
-            <%} %>
-          </div>
+        <div class="col text-end mt-3">
+          <% if(currentUser && foodground.author.id.toString()===
+          currentUser._id.toString()){%>
+          <a
+            class="btn btn-xs mx-auto"
+            href="/foodgrounds/<%= foodground._id%>/edit"
+            ><ion-icon name="create-outline" style="font-size: 25px;"></ion-icon></a
+          >
+          <form
+            action="/foodgrounds/<%= foodground._id%>/delete?_method=DELETE"
+            method="POST"
+            style="display: inline"
+          >
+            <button class="btn btn-xs"><ion-icon name="trash-bin-outline" style="font-size: 25px;"></ion-icon></button>
+          </form>
+          <%} %>
+        </div>
       </div>
       <hr />
 
@@ -83,16 +89,16 @@
                 <% if(currentUser && comment.author.id.toString()===
                 currentUser._id.toString()){ %>
                 <a
-                  class="btn btn-warning btn-xs"
+                  class="btn btn-xs"
                   href="/foodgrounds/<%= foodground._id%>/comments/<%=comment._id%>/edit"
-                  >edit</a
+                  ><ion-icon name="create-outline" style="font-size: 25px;"></ion-icon></a
                 >
                 <form
                   action="/foodgrounds/<%=foodground._id%>/comments/<%=comment._id%>?_method=DELETE"
                   method="POST"
                   style="display: inline"
                 >
-                  <button class="btn btn-danger btn-xs">delete</button>
+                  <button class="btn btn-xs"><ion-icon name="trash-bin-outline" style="font-size: 25px;"></ion-icon></button>
                 </form>
                 <%}%>
                 <div>
