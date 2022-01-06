@@ -45,6 +45,16 @@ const foodgroundSchema = new mongoose.Schema({
     type: [mongoose.Schema.Types.ObjectId],
     ref: "comment",
   },
+  likes: {
+    count: {
+      type: Number,
+      default: 0,
+    },
+    users: {
+      type: [mongoose.Schema.Types.ObjectId],
+      ref: "user",
+    },
+  },
 });
 
 module.exports = mongoose.model("foodground", foodgroundSchema);

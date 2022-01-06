@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const passport = require("passport");
-const { User } = require("../models");
+const { User, Foodground } = require("../models");
 const bcrypt = require("bcrypt");
 const middleware = require("../middleware");
 const Cloudinary = require("../utils/Cloudinary");
@@ -95,6 +95,26 @@ router.put("/edit-user-details", middleware.isLoggedIn, async (req, res) => {
   }
 });
 
+router.post("/like-foodground/:id", async (req, res) => {
+  let updatedUsers = [];
+  const foodground = await Foodground.findById(req.params.id);
+  if (
+    foodground.likes.users.find(
+      (ele) => req.user._id.toString() === ele.toString()
+    )
+  ) {
+    foodground.likes.count -= 1;
+    updatedUsers = [...foodground.likes.users].filter(
+      (ele) => req.user._id.toString() != ele.toString()
+    );
+  } else {
+    foodground.likes.count += 1;
+    updatedUsers.push(req.user._id);
+  }
+  foodground.likes.users = updatedUsers;
+  await foodground.save();
+  res.redirect("/foodgrounds/" + foodground._id);
+});
 // logout route
 router.get("/logout", (req, res) => {
   req.logout();
