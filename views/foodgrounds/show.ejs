@@ -15,7 +15,13 @@
           data-bs-toggle="modal"
           data-bs-target="#exampleModal"
         >
-          <ion-icon name="location-outline" style="font-size: 35px"></ion-icon>
+          <ion-icon
+            name="location-outline"
+            data-bs-toggle="tooltip"
+            data-bs-placement="bottom"
+            title="Map"
+            style="font-size: 35px"
+          ></ion-icon>
         </button>
       </div>
     </div>
@@ -35,6 +41,9 @@
             ><ion-icon
               name="chatbox-ellipses-outline"
               style="font-size: 25px"
+              data-bs-toggle="tooltip"
+              data-bs-placement="bottom"
+              title="Comment"
             ></ion-icon
           ></a>
 
@@ -47,6 +56,9 @@
             <button type="submit" class="btn btn-xs" style="outline: none">
               <ion-icon
                 name="<%= foodground.likes.users.find(ele => ele.toString() === currentUser._id.toString()) ? 'thumbs-down-outline' : 'thumbs-up-outline' %>"
+                data-bs-toggle="tooltip"
+                data-bs-placement="bottom"
+                title="<%= foodground.likes.users.find(ele => ele.toString() === currentUser._id.toString()) ? 'Unlike' : 'Like' %>"
                 style="font-size: 25px"
               ></ion-icon>
             </button>
@@ -54,6 +66,9 @@
             <button type="submit" class="btn btn-xs" style="outline: none">
               <ion-icon
                 name="thumbs-up-outline"
+                data-bs-toggle="tooltip"
+                data-bs-placement="bottom"
+                title="Like"
                 style="font-size: 25px"
               ></ion-icon>
             </button>
@@ -66,7 +81,13 @@
           <a
             class="btn btn-xs mx-auto"
             href="/foodgrounds/<%= foodground._id%>/edit"
-            ><ion-icon name="create-outline" style="font-size: 25px"></ion-icon
+            ><ion-icon
+              name="create-outline"
+              data-bs-toggle="tooltip"
+              data-bs-placement="bottom"
+              title="Edit"
+              style="font-size: 25px"
+            ></ion-icon
           ></a>
           <form
             action="/foodgrounds/<%= foodground._id%>/delete?_method=DELETE"
@@ -76,6 +97,9 @@
             <button class="btn btn-xs">
               <ion-icon
                 name="trash-bin-outline"
+                data-bs-toggle="tooltip"
+                data-bs-placement="bottom"
+                title="Delete"
                 style="font-size: 25px"
               ></ion-icon>
             </button>
@@ -114,6 +138,9 @@
                   href="/foodgrounds/<%= foodground._id%>/comments/<%=comment._id%>/edit"
                   ><ion-icon
                     name="create-outline"
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="bottom"
+                    title="Edit"
                     style="font-size: 25px"
                   ></ion-icon
                 ></a>
@@ -125,6 +152,9 @@
                   <button class="btn btn-xs">
                     <ion-icon
                       name="trash-bin-outline"
+                      data-bs-toggle="tooltip"
+                      data-bs-placement="bottom"
+                      title="Delete"
                       style="font-size: 25px"
                     ></ion-icon>
                   </button>
