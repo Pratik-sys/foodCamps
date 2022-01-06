@@ -95,7 +95,7 @@ router.put("/edit-user-details", middleware.isLoggedIn, async (req, res) => {
   }
 });
 
-router.post("/like-foodground/:id", async (req, res) => {
+router.post("/like-foodground/:id", middleware.isLoggedIn, async (req, res) => {
   let updatedUsers = [];
   const foodground = await Foodground.findById(req.params.id);
   if (
@@ -109,6 +109,7 @@ router.post("/like-foodground/:id", async (req, res) => {
     );
   } else {
     foodground.likes.count += 1;
+    updatedUsers = [...foodground.likes.users];
     updatedUsers.push(req.user._id);
   }
   foodground.likes.users = updatedUsers;

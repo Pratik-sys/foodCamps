@@ -15,7 +15,7 @@
           data-bs-toggle="modal"
           data-bs-target="#exampleModal"
         >
-        <ion-icon name="map-outline" style="font-size: 35px;"></ion-icon>
+          <ion-icon name="location-outline" style="font-size: 35px"></ion-icon>
         </button>
       </div>
     </div>
@@ -32,16 +32,32 @@
           <a
             class="btn btn-xs"
             href="/foodgrounds/<%= foodground._id%>/comments/new"
-            ><ion-icon name="chatbox-ellipses-outline" style="font-size: 25px;"></ion-icon></a
-          >
+            ><ion-icon
+              name="chatbox-ellipses-outline"
+              style="font-size: 25px"
+            ></ion-icon
+          ></a>
+
           <form
             action="/like-foodground/<%= foodground._id%>"
             method="post"
             style="display: inline"
           >
-            <button type="submit" class="btn btn-xs" style="outline: none;">
-              <ion-icon name="thumbs-up-outline" style="font-size: 25px;"></ion-icon>
+            <% if(currentUser){ %>
+            <button type="submit" class="btn btn-xs" style="outline: none">
+              <ion-icon
+                name="<%= foodground.likes.users.find(ele => ele.toString() === currentUser._id.toString()) ? 'thumbs-down-outline' : 'thumbs-up-outline' %>"
+                style="font-size: 25px"
+              ></ion-icon>
             </button>
+            <%} else { %>
+            <button type="submit" class="btn btn-xs" style="outline: none">
+              <ion-icon
+                name="thumbs-up-outline"
+                style="font-size: 25px"
+              ></ion-icon>
+            </button>
+            <%} %>
           </form>
         </div>
         <div class="col text-end mt-3">
@@ -50,14 +66,19 @@
           <a
             class="btn btn-xs mx-auto"
             href="/foodgrounds/<%= foodground._id%>/edit"
-            ><ion-icon name="create-outline" style="font-size: 25px;"></ion-icon></a
-          >
+            ><ion-icon name="create-outline" style="font-size: 25px"></ion-icon
+          ></a>
           <form
             action="/foodgrounds/<%= foodground._id%>/delete?_method=DELETE"
             method="POST"
             style="display: inline"
           >
-            <button class="btn btn-xs"><ion-icon name="trash-bin-outline" style="font-size: 25px;"></ion-icon></button>
+            <button class="btn btn-xs">
+              <ion-icon
+                name="trash-bin-outline"
+                style="font-size: 25px"
+              ></ion-icon>
+            </button>
           </form>
           <%} %>
         </div>
@@ -91,14 +112,22 @@
                 <a
                   class="btn btn-xs"
                   href="/foodgrounds/<%= foodground._id%>/comments/<%=comment._id%>/edit"
-                  ><ion-icon name="create-outline" style="font-size: 25px;"></ion-icon></a
-                >
+                  ><ion-icon
+                    name="create-outline"
+                    style="font-size: 25px"
+                  ></ion-icon
+                ></a>
                 <form
                   action="/foodgrounds/<%=foodground._id%>/comments/<%=comment._id%>?_method=DELETE"
                   method="POST"
                   style="display: inline"
                 >
-                  <button class="btn btn-xs"><ion-icon name="trash-bin-outline" style="font-size: 25px;"></ion-icon></button>
+                  <button class="btn btn-xs">
+                    <ion-icon
+                      name="trash-bin-outline"
+                      style="font-size: 25px"
+                    ></ion-icon>
+                  </button>
                 </form>
                 <%}%>
                 <div>
