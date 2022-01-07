@@ -17,19 +17,19 @@
             type="text"
             class="form-control"
             name="search"
-            id="inputemail"
+            id="foodground-search"
             placeholder="Foodground search...."
           />
         </div>
       </form>
     </div>
   </div>
-  <div class="row my-5 d-flex justify-content-around">
+  <div id="data-card" class="row my-5 d-flex justify-content-around">
     <% foodgrounds.forEach(function(foodground){ %>
     <div
+      id="card-click"
       class="card mb-2"
       style="max-width: 300px; height: 400px; border: none"
-      id="card-click"
       onclick="clickCard('<%= foodground.id%>')"
     >
       <div

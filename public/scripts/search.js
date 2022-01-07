@@ -1,28 +1,32 @@
-$('#foodground-search').on('input', function(){
-    var search = $(this).serialize();
-    if(search === "search= ") {
-        search = "all";
-    }
-    $.get('/foodgrounds?' + search, function(data){
-        $('#foodground-grid').html('');
-        data.forEach(function(foodground) {
-            $('#foodground-grid').append(`
-                <div class="col-md-3 col-sm-6>
-                    <div class="thumbnail">
-                        <img src="${foodground.image}">
-                        <div class="caption">
-                            <h4>${foodground.name}</h4>
-                        </div>
-                        <p>
-                            <a href="/foodgrounds/${foodground._id}" class="btn btn-primary">More Info</a>
-                        </p>
-                    </div>
+$("#foodground-search").on("input", function () {
+  let search = $(this).serialize();
+  $.get("/foodgrounds?" + search, function (data) {
+    $("#data-card").html("");
+    if (data) {
+      data.forEach(function (foodground) {
+        $("#data-card").append(`
+                <div
+                class="card mb-2"
+                style="max-width: 300px; height: 400px; border: none"
+                id="card-click"
+                onclick="clickCard('${foodground._id}')"
+              >
+                <div
+                  class="row d-flex justify-content-center align-items-center"
+                  style="height: 80%"
+                >
+                  <img src="${foodground.image.path}" style="width: 300px" />
                 </div>
+                <div class="row text-center">
+                  <h5>${foodground.name}</h5>
+                </div>
+              </div>
             `);
-        });
-    });
+      });
+    }
+  });
 });
 
-$('#foodground-search').submit(function(event){
-    event.preventDefault();
-})
+$("#foodground-search").submit(function (event) {
+  event.preventDefault();
+});
