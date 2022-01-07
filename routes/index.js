@@ -19,21 +19,21 @@ router.get("/register", (req, res) => {
 //handle sign up logic
 router.post("/register", async (req, res) => {
   try {
-    const hash =
-      req.body.password != "" ? await bcrypt.hash(req.body.password, 10) : "";
     await new User({
       name: req.body.username,
-      password: hash,
+      password: req.body.password,
       avatar_image: {
         cloudinary_ID: process.env.DEFAULT_AVATAR_ID,
         path: process.env.DEFAULT_AVATAR_URL,
       },
     }).save((error, user) => {
       if (error) {
-        console.log(error);
         let usererror = {};
-        Object.values(error.errors).map((x) => (usererror[x.path] = x.message));
-        console.log(usererror);
+        typeof error.errors != "undefined"
+          ? Object.values(error.errors).map(
+              (x) => (usererror[x.path] = x.message)
+            )
+          : (usererror = error);
         return res.render("register", { error: usererror });
       } else {
         req.flash(
