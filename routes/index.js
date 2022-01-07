@@ -19,7 +19,8 @@ router.get("/register", (req, res) => {
 //handle sign up logic
 router.post("/register", async (req, res) => {
   try {
-    const hash = await bcrypt.hash(req.body.password, 10);
+    const hash =
+      req.body.password != "" ? await bcrypt.hash(req.body.password, 10) : "";
     await new User({
       name: req.body.username,
       password: hash,
@@ -27,15 +28,23 @@ router.post("/register", async (req, res) => {
         cloudinary_ID: process.env.DEFAULT_AVATAR_ID,
         path: process.env.DEFAULT_AVATAR_URL,
       },
-    }).save();
-    req.flash(
-      "success",
-      "Successfully Signed Up! Nice to meet you " + req.body.username
-    );
-    res.redirect("/login");
+    }).save((error, user) => {
+      if (error) {
+        console.log(error);
+        let usererror = {};
+        Object.values(error.errors).map((x) => (usererror[x.path] = x.message));
+        console.log(usererror);
+        return res.render("register", { error: usererror });
+      } else {
+        req.flash(
+          "success",
+          "Successfully Signed Up! Nice to meet you " + req.body.username
+        );
+        res.redirect("/login");
+      }
+    });
   } catch (err) {
     console.log(err);
-    return res.render("register", { error: err.message });
   }
 });
 

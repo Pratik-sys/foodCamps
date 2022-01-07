@@ -8,26 +8,31 @@
           <label for="usernameinput" class="form-label">Username</label>
           <input
             type="text"
-            class="form-control"
+            class="form-control <%= typeof error.name != 'undefined' ? 'is-invalid' : ''%>"
             name="username"
             id="usernameinput"
             placeholder="username"
           />
+          <div class="invalid-feedback">
+            <%= typeof error.name != 'undefined' ? error.name : ''%>
+          </div>
         </div>
         <div class="mb-3">
           <label for="inputpassword" class="form-label">Password</label>
           <input
             type="password"
-            class="form-control"
+            class="form-control <%= typeof error.password != 'undefined' ? 'is-invalid' : ''%>"
             id="inputpassword"
             name="password"
             placeholder="password"
           />
+          <div class="invalid-feedback">
+            <%= typeof error.password != 'undefined' ? error.password : ''%>
+          </div>
         </div>
         <div class="text-center">
           <button type="submit" class="btn btn-primary">Sign Up</button>
         </div>
-       
       </form>
     </div>
   </div>

@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const commentSchema = mongoose.Schema({
   text: {
     type: String,
+    required: [true, "Comment required"],
   },
   createdAt: {
     type: Date,

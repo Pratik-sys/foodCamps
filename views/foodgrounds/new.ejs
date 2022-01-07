@@ -8,11 +8,14 @@
           <label for="inputname" class="form-label">Name</label>
           <input
             type="text"
-            class="form-control"
+            class="form-control <%= typeof error.name != 'undefined' ? 'is-invalid' : ''%>"
             name="name"
             id="inputname"
             placeholder="Name"
           />
+          <div class="invalid-feedback">
+            <%= typeof error.name != 'undefined' ? error.name : ''%>
+          </div>
         </div>
         <div class="mb-3">
           <label for="inputimage" class="form-label">Image URL</label>
@@ -28,34 +31,42 @@
           <label for="inputcost" class="form-label">Cost</label>
           <input
             type="number"
-            class="form-control"
+            class="form-control <%= typeof error.cost != 'undefined' ? 'is-invalid' : ''%>"
             id="inputcost"
             name="cost"
             placeholder="0.00"
             step="0.01"
-            min="0"
           />
+          <div class="invalid-feedback">
+            <%= typeof error.cost != 'undefined' ? error.cost : ''%>
+          </div>
         </div>
         <div class="mb-3">
           <label for="inputlocation" class="form-label">Location</label>
           <input
             type="text"
-            class="form-control"
+            class="form-control <%= typeof error.location != 'undefined' ? 'is-invalid' : ''%>"
             id="inputlocation"
             name="location"
             placeholder="Location"
           />
+          <div class="invalid-feedback">
+            <%= typeof error.location != 'undefined' ? error.location : ''%>
+          </div>
         </div>
         <div class="mb-3">
           <label for="inputdescription" class="form-label">Description</label>
           <textarea
-            type="text"
-            class="form-control"
+            class="form-control <%= typeof error.location != 'undefined' ? 'is-invalid' : ''%>"
             id="inputdescription"
-            name="description"
+            rows="3"
             placeholder="Description"
-          >
-          </textarea>
+            name="description"
+          ></textarea>
+          <div class="invalid-feedback">
+            <%= typeof error.description != 'undefined' ? error.description :
+            ''%>
+          </div>
         </div>
         <div class="text-center">
           <button type="submit" class="btn btn-primary">Add</button>

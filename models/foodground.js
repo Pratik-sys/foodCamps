@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const foodgroundSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: true,
+    required: [true, "Name is required"],
   },
   image: {
     cloudinary_ID: {
@@ -15,12 +15,16 @@ const foodgroundSchema = new mongoose.Schema({
   },
   description: {
     type: String,
+    required: [true, "Please provide description"],
   },
   cost: {
     type: Number,
+    required: [true, "Mention the cost"],
+    min: [0, "Negative value not suported"],
   },
   location: {
     type: String,
+    required: [true, "Location needed"],
   },
   lat: {
     type: Number,

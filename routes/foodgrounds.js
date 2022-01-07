@@ -64,20 +64,32 @@ router.post(
           path: process.env.DEFAULT_IMAGE_URL,
         };
       }
-      const data = await Geocoder.LocationGeocoding(req.body.location);
+      // const data =
+      //   req.body.location != ""
+      //     ? await Geocoder.LocationGeocoding(req.body.location)
+      //     : "";
       await new Foodground({
         name: req.body.name,
         image: imageDetails,
         description: req.body.description,
         cost: req.body.cost,
-        location: data.location,
-        lat: data.lat,
-        lng: data.lng,
+        location: req.body.location,
+        // location: data.location,
+        // lat: data.lat,
+        // lng: data.lng,
         author: {
           id: req.user.id,
           username: req.user.name,
         },
-      }).save();
+      }).save((error, foodgroound) => {
+        if (error) {
+          let foodgrounderror = {};
+          Object.values(error.errors).map(
+            (x) => (foodgrounderror[x.path] = x.message)
+          );
+          res.render("foodgrounds/new", { error: foodgrounderror });
+        }
+      });
       res.redirect("/foodgrounds");
     } catch (err) {
       await Cloudinary.DeleteImage(imageDetails.cloudinary_ID);

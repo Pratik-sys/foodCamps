@@ -28,7 +28,7 @@ router.post("/", (req, res) => {
   try {
     Foodground.findById(req.params.id, async (err, foodground) => {
       if (foodground) {
-        const comment = await new Comment({
+        await new Comment({
           text: req.body.text,
           author: {
             id: req.user.id,
@@ -36,12 +36,23 @@ router.post("/", (req, res) => {
             avatar_image: req.user.avatar_image.path,
           },
           foodground: foodground,
+        }).save((error, comment) => {
+          if (error) {
+            let commenterror = {};
+            Object.values(error.errors).map(
+              (x) => (commenterror[x.path] = x.message)
+            );
+            res.render("comments/new", {
+              error: commenterror,
+              foodground: foodground,
+            });
+          } else {
+            foodground.comments.push(comment);
+            foodground.save();
+            req.flash("success", "Created a comment!");
+            res.redirect("/foodgrounds/" + foodground._id);
+          }
         });
-        comment.save();
-        foodground.comments.push(comment);
-        foodground.save();
-        req.flash("success", "Created a comment!");
-        res.redirect("/foodgrounds/" + foodground._id);
       }
     });
   } catch (err) {
