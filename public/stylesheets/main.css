@@ -1,37 +1,32 @@
-html {
-  position: relative;
-  min-height: 100%;
-}
-
-body {
-  /*Margin bottom by footer height*/
-  margin-bottom: 60px;
-}
-
 .footer {
-  position: absolute;
   padding: 10px 0;
   bottom: 0;
   width: 100%;
-  /*to set a fixed height of the footer here*/
   height: 60px;
   background-color: #f5f5f5;
 }
-
-/*Google Map Styles*/
 #map {
   height: 400px;
   width: 100%;
 }
-/*the delete button on show info page*/
-
 #card-click:hover {
   box-shadow: 0 0 11px rgba(33, 33, 33, 0.2);
   transition: 0.6s all ease-in-out;
   border-radius: 15px;
 }
-.profile-pic{
-  height:230px; 
+.profile-pic {
+  height: 230px;
   max-width: 250px;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+ion-icon:hover {
+  pointer-events: none;
+}
+
+#btn-focus:focus {
+  outline: none;
+  box-shadow: none;
+}
+.alert{
+  height: 60px;
 }
