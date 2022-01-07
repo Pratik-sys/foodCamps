@@ -7,13 +7,13 @@
     <div class="col-md-4">
       <form action="/foodgrounds/<%= foodground._id %>/comments" method="POST">
         <div class="mb-3">
-          <label for="inputdescription" class="form-label">Comment</label>
+          <label for="inputtext" class="form-label">Comment</label>
           <textarea
             class="form-control <%= typeof error.text != 'undefined' ? 'is-invalid' : ''%>"
-            id="inputdescription"
+            id="inputtext"
             rows="3"
             placeholder="Comment"
-            name="description"
+            name="text"
           ></textarea>
           <div class="invalid-feedback">
             <%= typeof error.text != 'undefined' ? error.text :
