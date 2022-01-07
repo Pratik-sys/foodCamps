@@ -10,6 +10,7 @@
       </div>
       <div class="col mt-2 text-center">
         <button
+          id="btn-focus"
           type="button"
           class="btn btn-xs"
           data-bs-toggle="modal"
@@ -38,6 +39,7 @@
           <a
             class="btn btn-xs"
             href="/foodgrounds/<%= foodground._id%>/comments/new"
+            id="btn-focus"
             ><ion-icon
               name="chatbox-ellipses-outline"
               style="font-size: 25px"
@@ -53,7 +55,12 @@
             style="display: inline"
           >
             <% if(currentUser){ %>
-            <button type="submit" class="btn btn-xs" style="outline: none">
+            <button
+              type="submit"
+              class="btn btn-xs"
+              id="btn-focus"
+              style="outline: none"
+            >
               <ion-icon
                 name="<%= foodground.likes.users.find(ele => ele.toString() === currentUser._id.toString()) ? 'thumbs-down-outline' : 'thumbs-up-outline' %>"
                 data-bs-toggle="tooltip"
@@ -63,7 +70,12 @@
               ></ion-icon>
             </button>
             <%} else { %>
-            <button type="submit" class="btn btn-xs" style="outline: none">
+            <button
+              type="submit"
+              class="btn btn-xs"
+              id="btn-focus"
+              style="outline: none"
+            >
               <ion-icon
                 name="thumbs-up-outline"
                 data-bs-toggle="tooltip"
@@ -79,6 +91,7 @@
           <% if(currentUser && foodground.author.id.toString()===
           currentUser._id.toString()){%>
           <a
+            id="btn-focus"
             class="btn btn-xs mx-auto"
             href="/foodgrounds/<%= foodground._id%>/edit"
             ><ion-icon
@@ -94,7 +107,7 @@
             method="POST"
             style="display: inline"
           >
-            <button class="btn btn-xs">
+            <button id="btn-focus" class="btn btn-xs">
               <ion-icon
                 name="trash-bin-outline"
                 data-bs-toggle="tooltip"
@@ -134,6 +147,7 @@
                 <% if(currentUser && comment.author.id.toString()===
                 currentUser._id.toString()){ %>
                 <a
+                  id="btn-focus"
                   class="btn btn-xs"
                   href="/foodgrounds/<%= foodground._id%>/comments/<%=comment._id%>/edit"
                   ><ion-icon
@@ -149,7 +163,7 @@
                   method="POST"
                   style="display: inline"
                 >
-                  <button class="btn btn-xs">
+                  <button id="btn-focus" class="btn btn-xs">
                     <ion-icon
                       name="trash-bin-outline"
                       data-bs-toggle="tooltip"
