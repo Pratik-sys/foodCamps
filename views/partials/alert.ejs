@@ -1,0 +1,36 @@
+<div class="container text-center">
+  <div class="row m-2 d-flex justify-content-center">
+    <div class="col-md-6">
+      <% if(error && error.length> 0) { %>
+      <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <p><%=error %></p>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="alert"
+          aria-label="Close"
+        ></button>
+      </div>
+      <% } %> <% if(success && success.length> 0) { %>
+      <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <p><%= success %></p>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="alert"
+          aria-label="Close"
+        ></button>
+      </div>
+      <% } %>
+    </div>
+  </div>
+</div>
+<script>
+  window.setTimeout(function () {
+    $(".alert")
+      .fadeTo(500, 0)
+      .slideUp(500, function () {
+        $(this).remove();
+      });
+  }, 2000);
+</script>
