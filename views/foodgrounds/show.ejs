@@ -30,12 +30,11 @@
       <div class="row">
         <div class="col mt-3 px-3 bottom-border">
           <h1><%= foodground.name%></h1>
-          <p>cusine</p>
           <p><%= foodground.description%></p>
           <p class="text-muted"><%= foodground.location %></p>
-          <p><span class="text-warning">Open at</span> - 8am - 10pm</p>
-          <p><span>Call</span> - <span>1234567890</span></p>
-          <p><span>Likes</span> : <span><%= foodground.likes.count%></span></p>
+          <p><span class="text-warning">Timimg :</span> <span><%= foodground.openingTime %> - <%=foodground.closingTime %></span></p>
+          <p><span>Call</span> - <span><%= foodground.contactNumber%></span></p>
+          <p><span>People liked so far</span> : <span><%= foodground.likes.count%></span></p>
           <a
             class="btn btn-xs"
             href="/foodgrounds/<%= foodground._id%>/comments/new"
