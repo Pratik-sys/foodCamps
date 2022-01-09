@@ -1,5 +1,4 @@
 const NodeGeocoder = require("node-geocoder");
-require("dotenv").config();
 
 const opts = {
   provider: "google",
