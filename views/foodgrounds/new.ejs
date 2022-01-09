@@ -68,6 +68,53 @@
             ''%>
           </div>
         </div>
+        <div class="row">
+          <div class="col">
+            <div class="mb-3">
+              <label for="inputclose" class="form-label">Opening time</label>
+              <input
+                id="opentime"
+                type="text"
+                class="form-control <%= typeof error.openingTime != 'undefined' ? 'is-invalid' : ''%>"
+                name="opentime"
+               
+              />
+              <div class="invalid-feedback">
+                <%= typeof error.openingTime != 'undefined' ? error.openingTime
+                : ''%>
+              </div>
+            </div>
+          </div>
+          <div class="col">
+            <div class="mb-3">
+              <label for="inputclose" class="form-label">Closing time</label>
+              <input
+                id="closetime"
+                type="text"
+                class="form-control <%= typeof error.closingTime != 'undefined' ? 'is-invalid' : ''%>"
+                name="closetime"
+              />
+              <div class="invalid-feedback">
+                <%= typeof error.closingTime != 'undefined' ? error.closingTime
+                : ''%>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="inputcontact" class="form-label">Contact Details</label>
+          <input
+            type="number"
+            class="form-control <%= typeof error.contactNumber != 'undefined' ? 'is-invalid' : ''%>"
+            name="contactNumber"
+            id="inputcontact"
+            placeholder="Contact Number"
+          />
+          <div class="invalid-feedback">
+            <%= typeof error.contactNumber != 'undefined' ? error.contactNumber
+            : ''%>
+          </div>
+        </div>
         <div class="text-center">
           <button type="submit" class="btn btn-primary">Add</button>
         </div>
@@ -75,4 +122,10 @@
     </div>
   </div>
 </div>
+<script>
+  $(document).ready(function () {
+    $("#opentime").timepicker({ timeFormat: 'h:mm p' });
+    $("#closetime").timepicker({ timeFormat: 'h:mm p' });
+  });
+</script>
 <%- include ('../partials/footer') %>

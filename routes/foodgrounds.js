@@ -81,6 +81,9 @@ router.post(
           id: req.user.id,
           username: req.user.name,
         },
+        openingTime: req.body.opentime,
+        closingTime: req.body.closetime,
+        contactNumber: req.body.contactNumber
       }).save((error, foodgroound) => {
         if (error) {
           let foodgrounderror = {};

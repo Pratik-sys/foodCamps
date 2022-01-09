@@ -59,6 +59,18 @@ const foodgroundSchema = new mongoose.Schema({
       ref: "user",
     },
   },
+  openingTime: {
+    type: String,
+    required: [true, "Please provide the opening time"],
+  },
+  closingTime: {
+    type: String,
+    required: [true, "Please provide the closing time"],
+  },
+  contactNumber: {
+    type: Number,
+    required: [true, "Please provide the contact number"],
+  },
 });
 
 module.exports = mongoose.model("foodground", foodgroundSchema);
