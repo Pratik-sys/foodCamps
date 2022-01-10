@@ -6,10 +6,19 @@ const UserSchema = mongoose.Schema({
   name: {
     type: String,
     required: [true, "Name is required"],
+    unique: true,
   },
   password: {
     type: String,
     required: [true, "Password is required"],
+    minlength: [8, "Password must be at least 8 characters long"],
+    validate: {
+      validator: function (p) {
+        return p.match("(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])");
+      },
+      message:
+        "Password must contain atleast 1 lowercase, 1 uppercase & 1 special characters & 1 numeric digit",
+    },
   },
   role: {
     type: String,
@@ -35,14 +44,9 @@ UserSchema.pre("save", async function (next) {
   next();
 });
 
-UserSchema.post("save", async function (doc, next) {
-  let uniqueError = {};
-  const username = await mongoose.models["user"].findOne({ name: doc.name });
-  if (username) {
-    uniqueError.name = "User already present";
-  }
-  if (!isEmpty(uniqueError)) {
-    next(uniqueError);
+UserSchema.post("save", async function (err, doc, next) {
+  if (err.name === "MongoServerError" && err.code === 11000) {
+    next("User already present");
   }
   next();
 });
