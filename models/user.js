@@ -35,7 +35,7 @@ UserSchema.pre("save", async function (next) {
   next();
 });
 
-UserSchema.post("save", async function (err, doc, next) {
+UserSchema.post("save", async function (doc, next) {
   let uniqueError = {};
   const username = await mongoose.models["user"].findOne({ name: doc.name });
   if (username) {
