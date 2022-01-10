@@ -9,10 +9,12 @@ const methodOveride = require("method-override");
 const session = require("express-session");
 const cookieParser = require("cookie-parser");
 const flash = require("connect-flash");
-const commentRoutes = require("./routes/comments");
-const foodgroundRoutes = require("./routes/foodgrounds");
-const adminRoutes = require("./routes/Admin");
-const indexRoutes = require("./routes/index");
+const {
+  UserRoutes,
+  FoodgroundRoutes,
+  CommentRoutes,
+  AdminRoutes,
+} = require("./routes");
 
 config.DB();
 config.CloudinaryConfig();
@@ -62,10 +64,10 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use("/", indexRoutes);
-app.use("/foodgrounds", foodgroundRoutes);
-app.use("/foodgrounds/:id/comments", commentRoutes);
-app.use("/admin", adminRoutes);
+app.use("/", UserRoutes);
+app.use("/foodgrounds", FoodgroundRoutes);
+app.use("/foodgrounds/:id/comments", CommentRoutes);
+app.use("/admin", AdminRoutes);
 
 app.listen(process.env.PORT, () => {
   console.log(`Server running at port ${process.env.PORT}`);
