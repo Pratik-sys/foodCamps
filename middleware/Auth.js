@@ -1,4 +1,4 @@
-const isLoggedIn = (req, res, next) => {
+exports.isLoggedIn = (req, res, next) => {
   if (req.isAuthenticated()) {
     return next();
   }
@@ -6,7 +6,7 @@ const isLoggedIn = (req, res, next) => {
   res.redirect("/login");
 };
 
-const authorize = (...roles) => {
+exports.authorize = (...roles) => {
   return (req, res, next) => {
     if (!roles.includes(req.user.role)) {
       return res.send(
