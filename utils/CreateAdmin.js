@@ -7,7 +7,7 @@ module.exports.GenAdmin = async (req, res, next) => {
   if (isEmpyt(admin)) {
     await new User({
       name: process.env.ADMINUSERNAME,
-      password: await bcrypt.hash(process.env.ADMINPASSWORD, 10),
+      password: process.env.ADMINPASSWORD,
       role: "admin",
     }).save();
   }
