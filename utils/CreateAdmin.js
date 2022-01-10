@@ -8,6 +8,10 @@ module.exports.GenAdmin = async (req, res, next) => {
     await new User({
       name: process.env.ADMINUSERNAME,
       password: process.env.ADMINPASSWORD,
+      avatar_image: {
+        cloudinary_ID: process.env.ADMIN_AVATAR_ID,
+        path: process.env.ADMIN_AVATAR_URL,
+      },
       role: "admin",
     }).save();
   }
